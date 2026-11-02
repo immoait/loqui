@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Loqui – Der Gesprächscoach für den Mac</title>
 <meta name="description" content="Loqui hört dein Gespräch mit und gibt dir in Echtzeit die passende Antwort, die nächste gute Frage und ehrliches Feedback danach. Für den Mac.">
+<link rel="canonical" href="https://useloqui.de/">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://useloqui.de/">
 <meta property="og:title" content="Loqui – Der Gesprächscoach für den Mac">
@@ -17,6 +18,52 @@
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta name="theme-color" content="#fbfbfd">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://useloqui.de/#org",
+      "name": "Loqui",
+      "legalName": "Stapelfeld Ventures UG (haftungsbeschränkt)",
+      "url": "https://useloqui.de/",
+      "logo": "https://useloqui.de/apple-touch-icon.png",
+      "founder": { "@type": "Person", "name": "Immo Stapelfeld" },
+      "address": { "@type": "PostalAddress", "streetAddress": "Herweghstraße 5", "addressLocality": "Rostock", "addressCountry": "DE" }
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://useloqui.de/#app",
+      "name": "Loqui",
+      "url": "https://useloqui.de/",
+      "image": "https://useloqui.de/og.png",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "macOS",
+      "inLanguage": "de",
+      "description": "Loqui ist ein Gesprächscoach für den Mac. Die App hört Videocalls in Zoom, Google Meet, Teams und Slack live mit und zeigt während des Gesprächs kurze Vorschläge an: die passende Antwort, die nächste gute Frage oder einen Hinweis zum Redeanteil. Nach dem Gespräch gibt Loqui ehrliches Feedback.",
+      "publisher": { "@id": "https://useloqui.de/#org" },
+      "offers": [
+        { "@type": "Offer", "name": "Starter", "price": "0", "priceCurrency": "EUR", "description": "5 Gespräche im Monat" },
+        { "@type": "Offer", "name": "Pro", "price": "19", "priceCurrency": "EUR", "description": "Unbegrenzte Gespräche, eigene Wissensbasis, Verlauf", "priceSpecification": { "@type": "UnitPriceSpecification", "price": "19", "priceCurrency": "EUR", "billingIncrement": 1, "unitCode": "MON" } }
+      ],
+      "featureList": ["Echtzeit-Transkription", "Antwortvorschläge aus eigener Wissensbasis", "Nächste Frage", "Redeanteil live", "Feedback nach dem Gespräch"]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "Was unterscheidet Loqui von Granola?", "acceptedAnswer": { "@type": "Answer", "text": "Granola schreibt mit und fasst danach zusammen. Loqui hilft dir, während du sprichst." } },
+        { "@type": "Question", "name": "Was unterscheidet Loqui von Cluely?", "acceptedAnswer": { "@type": "Answer", "text": "Cluely bewirbt sich als unsichtbarer Assistent. Loqui arbeitet offen: Beim Start bestätigst du, dass alle im Gespräch wissen, dass ein Coach mithört." } },
+        { "@type": "Question", "name": "Sieht mein Gegenüber die Vorschläge?", "acceptedAnswer": { "@type": "Answer", "text": "Nein. Loqui ist ein eigenes Fenster und erscheint nicht, wenn du deinen Bildschirm teilst." } },
+        { "@type": "Question", "name": "Wohin geht das Gesagte?", "acceptedAnswer": { "@type": "Answer", "text": "Für Transkription und Vorschläge wird der Ton verschlüsselt an OpenAI geschickt. Loqui selbst speichert keine Aufnahmen. Berichte bleiben auf deinem Mac." } },
+        { "@type": "Question", "name": "Lenkt das nicht ab?", "acceptedAnswer": { "@type": "Answer", "text": "Loqui zeigt höchstens einen Vorschlag auf einmal. Wie oft, stellst du ein." } },
+        { "@type": "Question", "name": "Woher kennt Loqui unsere Preise?", "acceptedAnswer": { "@type": "Answer", "text": "Aus deiner Wissensbasis. Was dort nicht steht, erfindet Loqui nicht." } },
+        { "@type": "Question", "name": "Gibt es Loqui für Windows?", "acceptedAnswer": { "@type": "Answer", "text": "Noch nicht. Wir starten mit dem Mac." } }
+      ]
+    }
+  ]
+}
+</script>
 <style>
   /* Layout: Apple-Produktseiten-Rhythmus, zentriert. Ein mutiges Element: der schillernde Lichtrand um den Bildschirm („Loqui hört zu“).
      Bewusst nur hell. Farben: kühles Weiß, Tinte, ein Stimm-Spektrum (Teal → Blau → Violett → Rosé → Apricot) nur für Licht und Zahlen.
@@ -184,6 +231,19 @@
   .report time { font: 500 15px var(--font-round); color: var(--ink-3); font-variant-numeric: tabular-nums; }
   .report .row { display: flex; align-items: center; gap: 12px; }
   .report .dot { width: 10px; height: 10px; border-radius: 50%; flex: none; }
+
+  /* Was ist Loqui: zitierfähiger Text und Vergleich, ruhig gesetzt */
+  .about { padding-block: clamp(80px, 10vw, 140px) 0; }
+  .about .wrap { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px, 6vw, 96px); align-items: start; }
+  @media (max-width: 860px) { .about .wrap { grid-template-columns: 1fr; } }
+  .about h2 { font-size: clamp(1.8rem, 3.6vw, 2.6rem); margin-bottom: 18px; }
+  .about p { color: var(--ink-2); font-size: 18px; max-width: 32em; }
+  .about p + p { margin-top: 14px; }
+  .compare { display: grid; gap: 0; border-top: 1px solid var(--line); }
+  .compare > div { display: grid; grid-template-columns: 112px 1fr; gap: 16px; padding: 18px 0; border-bottom: 1px solid var(--line); align-items: baseline; }
+  .compare b { font-size: 17px; font-weight: 600; letter-spacing: -0.02em; }
+  .compare span { color: var(--ink-2); font-size: 16px; }
+  .compare .you b { background: var(--spectrum); -webkit-background-clip: text; background-clip: text; color: transparent; }
 
   /* Zahlen */
   .numbers { padding-block: clamp(64px, 8vw, 112px); }
@@ -371,6 +431,22 @@
   </div>
 </section>
 
+<section class="about" id="was-ist-loqui">
+  <div class="wrap">
+    <div>
+      <h2>Was Loqui ist.</h2>
+      <p>Loqui ist ein Gesprächscoach für den Mac. Die App hört deine Videocalls in Zoom, Google Meet, Teams und Slack live mit und zeigt dir während des Gesprächs kurze Vorschläge: die passende Antwort auf einen Einwand, die nächste gute Frage oder einen Hinweis, wenn du zu lange redest.</p>
+      <p>Die Antworten kommen aus deiner eigenen Wissensbasis, mit Quelle. Nach dem Gespräch bekommst du ehrliches Feedback mit Zeitmarken. Gebaut für Menschen im Vertrieb, für Gründer und Führungskräfte, deren Gespräche über Abschlüsse entscheiden.</p>
+    </div>
+    <div class="compare" aria-label="Loqui im Vergleich">
+      <div><b>Granola</b><span>Schreibt mit und fasst danach zusammen.</span></div>
+      <div><b>Fireflies</b><span>Nimmt auf, transkribiert, analysiert nach dem Gespräch.</span></div>
+      <div><b>Cluely</b><span>Hilft live, bewirbt sich aber als unsichtbar.</span></div>
+      <div class="you"><b>Loqui</b><span>Hilft live, mit Wissen aus deiner Quelle. Offen für alle im Gespräch.</span></div>
+    </div>
+  </div>
+</section>
+
 <section class="numbers">
   <div class="wrap">
     <div class="stats">
@@ -420,7 +496,8 @@
   <div class="wrap">
     <div class="center"><h2>Fragen.</h2></div>
     <div class="list">
-      <details><summary>Was unterscheidet Loqui von Granola?</summary><p>Granola schreibt mit. Loqui hilft dir, während du sprichst.</p></details>
+      <details><summary>Was unterscheidet Loqui von Granola?</summary><p>Granola schreibt mit und fasst danach zusammen. Loqui hilft dir, während du sprichst.</p></details>
+      <details><summary>Was unterscheidet Loqui von Cluely?</summary><p>Cluely bewirbt sich als unsichtbarer Assistent. Loqui arbeitet offen: Beim Start bestätigst du, dass alle im Gespräch wissen, dass ein Coach mithört.</p></details>
       <details><summary>Sieht mein Gegenüber die Vorschläge?</summary><p>Nein. Loqui ist ein eigenes Fenster und erscheint nicht, wenn du deinen Bildschirm teilst.</p></details>
       <details><summary>Wohin geht das Gesagte?</summary><p>Für Transkription und Vorschläge wird der Ton verschlüsselt an OpenAI geschickt. Loqui selbst speichert keine Aufnahmen. Berichte bleiben auf deinem Mac.</p></details>
       <details><summary>Lenkt das nicht ab?</summary><p>Loqui zeigt höchstens einen Vorschlag auf einmal. Wie oft, stellst du ein.</p></details>

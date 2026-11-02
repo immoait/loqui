@@ -1,0 +1,35 @@
+# Loqui
+
+> Loqui ist ein Gesprächscoach für den Mac. Die App hört Videocalls in Zoom, Google Meet, Microsoft Teams und Slack live mit und zeigt während des Gesprächs kurze Vorschläge an: eine passende Antwort auf einen Einwand, die nächste gute Frage oder einen Hinweis zum eigenen Redeanteil. Nach dem Gespräch gibt Loqui ehrliches Feedback.
+
+Website: https://useloqui.de
+Hersteller: Stapelfeld Ventures UG (haftungsbeschränkt), Rostock, Deutschland
+Status: Early Access (Stand November 2026)
+Plattform: macOS
+
+## Was Loqui macht
+
+- Transkribiert das Gespräch in Echtzeit (unter 1 Sekunde vom Satzende zum Text).
+- Schlägt nach etwa 2,5 Sekunden eine Antwort, eine Frage oder einen Verhaltenshinweis vor, höchstens einen auf einmal.
+- Antworten stammen aus der eigenen Wissensbasis des Nutzers (Preise, Cases, Einwände) und werden mit Quelle angezeigt. Fehlt eine Information, erfindet Loqui sie nicht.
+- Misst den Redeanteil live und warnt bei zu langen Monologen.
+- Erstellt nach jedem Gespräch ein Feedback mit Zeitmarken.
+
+## Was Loqui von anderen Tools unterscheidet
+
+- Granola und Fireflies schreiben Gespräche mit und fassen sie danach zusammen. Loqui hilft während des Gesprächs.
+- Cluely bewirbt sich als unsichtbarer Assistent. Loqui arbeitet offen: Beim Start bestätigt der Nutzer, dass alle Teilnehmenden wissen, dass ein KI-Coach mithört.
+- Loqui tritt keinem Meeting als Bot bei, sondern läuft als Fenster auf dem Mac des Nutzers.
+
+## Zielgruppe
+
+Zuerst B2B-Vertrieb (Discovery- und Verkaufsgespräche), außerdem Gründer und Führungskräfte in Investoren-, Mitarbeiter- und Kundengesprächen.
+
+## Preise
+
+- Starter: kostenlos, 5 Gespräche im Monat.
+- Pro: 19 € im Monat, unbegrenzte Gespräche, eigene Wissensbasis, Verlauf.
+
+## Datenschutz
+
+Audio wird für Transkription und Vorschläge verschlüsselt an OpenAI gesendet. Loqui speichert keine Aufnahmen. Berichte bleiben lokal auf dem Mac. Ein Transkript wird nur gespeichert, wenn der Nutzer das einschaltet.
