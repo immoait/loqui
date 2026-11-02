@@ -23,3 +23,7 @@ coverage/
 .DS_Store
 .claude/
 npm-debug.log*
+
+# Astro
+site/dist/
+site/.astro/

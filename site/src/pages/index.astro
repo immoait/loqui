@@ -1,0 +1,223 @@
+---
+import Base from '../layouts/Base.astro';
+import product from '../data/product.json';
+
+const faq = [
+  { q: 'Was unterscheidet Loqui von Granola?', a: 'Granola schreibt mit und fasst danach zusammen. Loqui hilft dir, während du sprichst.' },
+  { q: 'Was unterscheidet Loqui von Cluely?', a: 'Cluely bewirbt sich als unsichtbarer Assistent. Loqui arbeitet offen: Beim Start bestätigst du, dass alle im Gespräch wissen, dass ein Coach mithört.' },
+  { q: 'Sieht mein Gegenüber die Vorschläge?', a: 'Nein. Loqui ist ein eigenes Fenster und erscheint nicht, wenn du deinen Bildschirm teilst.' },
+  { q: 'Wohin geht das Gesagte?', a: 'Für Transkription und Vorschläge wird der Ton verschlüsselt an OpenAI geschickt. Loqui selbst speichert keine Aufnahmen. Berichte bleiben auf deinem Mac.' },
+  { q: 'Lenkt das nicht ab?', a: 'Loqui zeigt höchstens einen Vorschlag auf einmal. Wie oft, stellst du ein.' },
+  { q: 'Woher kennt Loqui unsere Preise?', a: 'Aus deiner Wissensbasis. Was dort nicht steht, erfindet Loqui nicht.' },
+  { q: 'Gibt es Loqui für Windows?', a: 'Noch nicht. Wir starten mit dem Mac.' },
+];
+
+const schema = [
+  {
+    '@type': 'SoftwareApplication',
+    '@id': `${product.url}/#app`,
+    name: product.name,
+    url: `${product.url}/`,
+    image: `${product.url}/og.png`,
+    applicationCategory: 'BusinessApplication',
+    operatingSystem: product.platforms.join(', '),
+    inLanguage: 'de',
+    description: product.description,
+    publisher: { '@id': `${product.url}/#org` },
+    offers: product.plans.map((p) => ({
+      '@type': 'Offer', name: p.name, price: String(p.price), priceCurrency: 'EUR', description: p.features.join(', '),
+    })),
+    featureList: ['Echtzeit-Transkription', 'Antwortvorschläge aus eigener Wissensbasis', 'Nächste Frage', 'Redeanteil live', 'Feedback nach dem Gespräch'],
+  },
+  {
+    '@type': 'FAQPage',
+    mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+  },
+];
+---
+<Base title="Loqui – Der Gesprächscoach für den Mac" description="Loqui hört dein Gespräch mit und gibt dir in Echtzeit die passende Antwort, die nächste gute Frage und ehrliches Feedback danach. Für den Mac." path="/" schema={schema}>
+<header class="hero" id="top">
+  <div class="wrap">
+    <h1>Immer die<br>richtige Antwort.</h1>
+    <p class="lede">Der Gesprächscoach, der live mithört und dir im richtigen Moment hilft.</p>
+    <div class="actions" id="zugang">
+      <form id="access-form">
+        <label for="email" hidden>E-Mail</label>
+        <input id="email" type="email" required placeholder="name@firma.de" autocomplete="email">
+        <button class="btn" type="submit">Early Access anfragen</button>
+      </form>
+      <p class="ok" id="access-ok" hidden>Danke. Wir melden uns bei dir.</p>
+      <a class="link" href="#funktionen">So funktioniert Loqui ›</a>
+    </div>
+    <p class="note">Für den Mac. Läuft mit Zoom, Google&nbsp;Meet, Teams und&nbsp;Slack.</p>
+
+    <div class="device">
+      <div class="glow soft" aria-hidden="true"></div>
+      <div class="glow" aria-hidden="true"></div>
+      <div class="screen" role="img" aria-label="Loqui über einem laufenden Videocall: Der Kunde nennt den Preis zu hoch, Loqui schlägt eine Antwort vor.">
+        <div class="menubar"><b>Zoom</b><span>Mo 14:32</span></div>
+        <div class="callwin">
+          <div class="bar"><i></i><i></i><i></i></div>
+          <div class="grid">
+            <div class="person a"><div class="who"></div><span>Thomas Meyer</span></div>
+            <div class="side">
+              <div class="person b"><div class="who"></div><span>Du</span></div>
+              <div class="person c"><div class="who"></div><span>Sandra Kühn</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="pill dark-glass">
+          <span class="rec"></span><time>12:41</time>
+          <span class="meter"><i></i></span>
+          <span class="prev">Preis-Einwand</span>
+          <span class="stop"></span>
+        </div>
+        <div class="sheet dark-glass">
+          <span class="kind">Antwort</span>
+          <p class="say">„49 € pro Nutzer, und die doppelte Pflege in Excel fällt weg. Wie viele Stunden sind das bei Ihnen pro Woche?“</p>
+          <p class="src">Aus: Preise, Case Meyer GmbH</p>
+          <div class="chips">
+            <span class="chip">Was soll ich sagen? <kbd>⌥␣</kbd></span>
+            <span class="chip">Nächste Frage</span>
+            <span class="chip">Einwand</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="statement">
+  <div class="wrap">
+    <p><span>Loqui hört zu.</span> Und hilft genau dann, wenn es zählt.</p>
+  </div>
+</section>
+
+<section id="funktionen">
+  <div class="wrap">
+    <div class="bento">
+      <article class="tile t-answer">
+        <div class="copy">
+          <h3>Die Antwort, bevor die Pause zu lang wird.</h3>
+          <p>Aus deiner Wissensbasis, mit Quelle. Was dort fehlt, erfindet Loqui nicht.</p>
+        </div>
+        <div class="say-card light-glass">
+          <span class="kind">Antwort</span>
+          <p class="say">„Unsere Server stehen in Frankfurt. Den AV&#8209;Vertrag schicke ich Ihnen heute noch.“</p>
+          <p class="src">Aus: Datenschutz</p>
+        </div>
+      </article>
+
+      <article class="tile t-question">
+        <div class="copy">
+          <h3>Die eine Frage, die fehlt.</h3>
+        </div>
+        <p class="bubble"><small>Nächste Frage</small>„Was passiert, wenn das bis Q2 nicht gelöst ist?“</p>
+      </article>
+
+      <article class="tile t-talk">
+        <div class="copy">
+          <h3>Redeanteil, live.</h3>
+        </div>
+        <div class="ring"><div><b>58 %</b><small>du</small></div></div>
+      </article>
+
+      <article class="tile t-report">
+        <div class="copy">
+          <h3>Ehrliches Feedback nach jedem Gespräch.</h3>
+          <p>Was gut lief. Was du beim nächsten Mal anders machst.</p>
+        </div>
+        <div class="report">
+          <time>12:41</time><div class="row"><span class="dot" style="background:var(--teal)"></span>Preis-Einwand sauber in Nutzen übersetzt.</div>
+          <time>18:05</time><div class="row"><span class="dot" style="background:var(--apricot)"></span>Frage nach dem Zeitdruck fehlte.</div>
+          <time>22:00</time><div class="row"><span class="dot" style="background:var(--violet)"></span>Zweieinhalb Minuten am Stück geredet.</div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="about" id="was-ist-loqui">
+  <div class="wrap">
+    <div>
+      <h2>Was Loqui ist.</h2>
+      <p>Loqui ist ein Gesprächscoach für den Mac. Die App hört deine Videocalls in Zoom, Google Meet, Teams und Slack live mit und zeigt dir während des Gesprächs kurze Vorschläge: die passende Antwort auf einen Einwand, die nächste gute Frage oder einen Hinweis, wenn du zu lange redest.</p>
+      <p>Die Antworten kommen aus deiner eigenen Wissensbasis, mit Quelle. Nach dem Gespräch bekommst du ehrliches Feedback mit Zeitmarken. Gebaut für Menschen im Vertrieb, für Gründer und Führungskräfte, deren Gespräche über Abschlüsse entscheiden.</p>
+    </div>
+    <div class="compare" aria-label="Loqui im Vergleich">
+      <div><b>Granola</b><span>Schreibt mit und fasst danach zusammen.</span></div>
+      <div><b>Fireflies</b><span>Nimmt auf, transkribiert, analysiert nach dem Gespräch.</span></div>
+      <div><b>Cluely</b><span>Hilft live, bewirbt sich aber als unsichtbar.</span></div>
+      <div class="you"><b>Loqui</b><span>Hilft live, mit Wissen aus deiner Quelle. Offen für alle im Gespräch.</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="numbers">
+  <div class="wrap">
+    <div class="stats">
+      <div class="stat"><b>{product.stats.transcriptSeconds}<small>Sek.</small></b><p>vom Satzende zum Transkript</p></div>
+      <div class="stat"><b>{product.stats.suggestionSeconds}<small>Sek.</small></b><p>bis zum Vorschlag</p></div>
+      <div class="stat"><b>0</b><p>Bots im Meeting</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="open" id="datenschutz">
+  <div class="wrap">
+    <h2>Coach. Nicht Spickzettel.</h2>
+    <p class="lede">Loqui arbeitet offen. Alle im Gespräch wissen, dass ein Coach mithört.</p>
+    <div class="consent"><span class="toggle" aria-hidden="true"></span>Alle wissen Bescheid</div>
+    <div class="facts">
+      <div><b>Kein Bot im Meeting</b><span>Loqui läuft als Fenster auf deinem Mac.</span></div>
+      <div><b>Kein Audio gespeichert</b><span>Loqui speichert keine Aufnahmen.</span></div>
+      <div><b>Berichte bleiben bei dir</b><span>Feedback und Verlauf liegen lokal auf deinem Mac.</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="pricing" id="preise">
+  <div class="wrap">
+    <div class="center">
+      <h2>Einfach anfangen.</h2>
+    </div>
+    <div class="plans">
+      {product.plans.map((p, i) => (
+        <div class={i === 1 ? 'plan pro' : 'plan'}>
+          <span class="name">{p.name}</span>
+          <span class="price">{p.price} €{p.period && <small> im {p.period}</small>}</span>
+          <ul>{p.features.map((f) => <li>{f}</li>)}</ul>
+          <a class={i === 1 ? 'btn' : 'btn light'} href="#zugang">Early Access anfragen</a>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="faq" id="fragen">
+  <div class="wrap">
+    <div class="center"><h2>Fragen.</h2></div>
+    <div class="list">
+      {faq.map((f) => <details><summary>{f.q}</summary><p>{f.a}</p></details>)}
+    </div>
+  </div>
+</section>
+
+<section class="closing">
+  <div class="wrap">
+    <div class="finale">
+      <h2>Dein bestes Gespräch<br>kommt noch.</h2>
+      <a class="btn" href="#zugang">Early Access anfragen</a>
+    </div>
+  </div>
+</section>
+
+<script>
+  const form = document.getElementById('access-form') as HTMLFormElement;
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    form.hidden = true;
+    (document.getElementById('access-ok') as HTMLElement).hidden = false;
+  });
+</script>
+</Base>

@@ -1,0 +1,16 @@
+---
+import Article from '../../layouts/Article.astro';
+import { getCollection, render } from 'astro:content';
+import { isLive } from '../../lib/live';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('einwaende', isLive);
+  return entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+<Article data={entry.data} hub={{ href: '/einwaende', label: 'Einwände' }} path={`/einwaende/${entry.id}`}>
+  <p slot="top" class="quote-card"><small>Der Kunde sagt</small>„{entry.data.quote}“</p>
+  <Content />
+</Article>

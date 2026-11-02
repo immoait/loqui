@@ -1,0 +1,9 @@
+---
+import Hub from '../../layouts/Hub.astro';
+import { getCollection } from 'astro:content';
+import { isLive } from '../../lib/live';
+
+const entries = (await getCollection('vergleich', isLive)).sort((a, b) => a.data.title.localeCompare(b.data.title, 'de'));
+const items = entries.map((e) => ({ href: `/vergleich/${e.id}`, title: e.data.title, description: e.data.description }));
+---
+<Hub title="Vergleiche" lede="Loqui neben Granola, Cluely, Fireflies und Gong. Ehrlich, mit den Fällen, in denen das andere Tool besser passt." description="Ehrliche Vergleiche: Loqui gegen Granola, Cluely, Fireflies, Gong und Otter. Echtzeit-Hilfe, Datenschutz, Preise und wann welches Tool passt." path="/vergleich" items={items} />

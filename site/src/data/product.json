@@ -1,0 +1,29 @@
+{
+  "name": "Loqui",
+  "brand": "Loqui Gesprächscoach",
+  "url": "https://useloqui.de",
+  "tagline": "Immer die richtige Antwort.",
+  "oneLiner": "Der Gesprächscoach, der live mithört und dir im richtigen Moment hilft.",
+  "entity": "Loqui ist ein Gesprächscoach für den Mac, der Videocalls live mithört und im richtigen Moment Antworten, Fragen und Hinweise zeigt.",
+  "description": "Loqui ist ein Gesprächscoach für den Mac. Die App hört Videocalls in Zoom, Google Meet, Teams und Slack live mit und zeigt während des Gesprächs kurze Vorschläge an: die passende Antwort, die nächste gute Frage oder einen Hinweis zum Redeanteil. Nach dem Gespräch gibt Loqui ehrliches Feedback.",
+  "publisher": {
+    "legalName": "Stapelfeld Ventures UG (haftungsbeschränkt)",
+    "locality": "Rostock",
+    "country": "DE"
+  },
+  "author": "Loqui Redaktion",
+  "status": "Early Access",
+  "platforms": ["macOS"],
+  "meetingApps": ["Zoom", "Google Meet", "Microsoft Teams", "Slack"],
+  "stats": {
+    "transcriptSeconds": "<1",
+    "suggestionSeconds": "2,5",
+    "measured": "2026-11-02"
+  },
+  "plans": [
+    { "name": "Starter", "price": 0, "period": null, "features": ["5 Gespräche im Monat", "Antworten, Fragen, Hinweise", "Feedback nach jedem Gespräch"] },
+    { "name": "Pro", "price": 19, "period": "Monat", "features": ["Unbegrenzte Gespräche", "Eigene Wissensbasis", "Verlauf über alle Gespräche"] }
+  ],
+  "privacy": "Für Transkription und Vorschläge wird der Ton verschlüsselt an OpenAI geschickt. Loqui selbst speichert keine Aufnahmen. Berichte bleiben auf deinem Mac.",
+  "updated": "2026-11-02"
+}
