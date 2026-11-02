@@ -1,14 +1,16 @@
-# Loqui: Wachstumsplan SEO, GEO und TikTok
+# Loqui: Wachstumsplan SEO und GEO
 
 Stand: 2. November 2026 · Domain: https://useloqui.de · Markt: DACH, Deutsch zuerst
 
 Dieses Dokument ist die Grundlage für alle Marketing-Arbeiten und für automatische Claude-Aufgaben. Wer hier etwas ändert, ändert die Richtung.
 
+**Fokus:** Ausschließlich SEO (Google, Bing) und GEO (ChatGPT, Perplexity, Gemini, Claude, Google AI Overviews). Keine Social-Media-Kanäle, keine Video-Skripte.
+
 ## 1. Leitlinien
 
 1. **Das Design bleibt.** Die Startseite wird nicht umgebaut. Wachstum entsteht durch neue Unterseiten, die exakt denselben Look nutzen (Systemschrift, helles Glas, Spektrum nur als Akzent, kurze Sätze).
 2. **Jede Seite beantwortet eine echte Frage besser als alle anderen.** Keine Füllseiten. Google straft massenhaft erzeugte Inhalte ohne eigenen Wert ab („scaled content abuse“), und KI-Suchen zitieren nur, was konkret und belegt ist.
-3. **Ein Thema, drei Kanäle.** Jedes Thema wird einmal recherchiert und dann als Webseite (SEO), als zitierfähiger Faktenblock (GEO) und als TikTok-Video verwertet.
+3. **Ein Thema, zwei Wirkungen.** Jede Seite ist so gebaut, dass sie bei Google rankt (SEO) und gleichzeitig als vollständige Antwort von KI-Suchen zitiert werden kann (GEO).
 4. **Claude entwirft, ein Mensch gibt frei.** Automatische Aufgaben erzeugen Entwürfe und Pull Requests. Veröffentlicht wird nach Freigabe.
 5. **Ehrlich wie die Marke.** Keine erfundenen Zahlen, Kundenstimmen oder Testsieger. Messwerte nur aus eigenen Daten mit Quelle und Datum.
 
@@ -32,6 +34,8 @@ Lücken:
 | Eine Datenquelle `src/data/product.json` für Preise, Zahlen, Funktionen | Preise und Fakten stimmen überall gleichzeitig (Seite, Schema, llms.txt) | gering |
 | Vercel Web Analytics (cookielos) aktivieren | Besucher und Quellen messen ohne Cookie-Banner | gering |
 | Early-Access-Formular anschließen (z. B. Vercel-Funktion + Resend-Audience oder Loops) mit Double-Opt-in | Ohne gespeicherte Anmeldungen gibt es keine Erfolgsmessung | gering |
+| Breadcrumbs und `BreadcrumbList`-Schema auf allen Unterseiten, gut lesbare URLs ohne Datumsangaben | Klare Struktur für Crawler und KI, Breadcrumbs in den Suchergebnissen | gering |
+| Englische Version unter `/en/` mit `hreflang` vorbereiten (erst ab Woche 9 befüllen) | Größerer Markt für Vergleichs- und Einwand-Seiten, ohne die deutsche Seite zu verwässern | gering |
 | Bing Webmaster Tools + IndexNow bei jedem Deploy | Bing speist ChatGPT-Suche und Copilot. IndexNow meldet neue Seiten sofort | gering |
 | Pro Seite eigenes Vorschaubild automatisch erzeugen (gleicher Stil wie `og.png`) | Bessere Klickrate beim Teilen auf LinkedIn und WhatsApp | gering |
 
@@ -47,11 +51,11 @@ Alle Bereiche hängen unter der bestehenden Domain. Die Startseite verlinkt sie 
 
 Aufbau: Kurz-gesagt-Karte, Tabelle (Echtzeit ja/nein, Bot im Meeting, Datenschutz, Preis, Sprache Deutsch), „Wann X die bessere Wahl ist“ (ehrlich), FAQ mit Schema. Ehrlichkeit ist hier Ranking-Faktor: KI-Suchen zitieren ausgewogene Vergleiche lieber als Werbung.
 
-### 4.2 Einwand-Bibliothek `/einwaende/…` (Volumen, perfekt für TikTok)
+### 4.2 Einwand-Bibliothek `/einwaende/…` (Volumen und Long-Tail)
 Jede Seite ein typischer B2B-Einwand mit drei Antwortmustern, Beispielsätzen, Nachfrage und typischem Fehler. Start mit 20, Ziel 50:
 - „Das ist zu teuer“, „Wir haben kein Budget“, „Schicken Sie mir Unterlagen“, „Wir arbeiten schon mit X“, „Jetzt ist kein guter Zeitpunkt“, „Ich muss das intern abstimmen“, „Wir machen das selbst“, „Das brauchen wir nicht“ …
 
-Jede Seite endet mit: „So sieht das live in Loqui aus“ plus echtem Screenshot oder Video-Link.
+Jede Seite endet mit: „So sieht das live in Loqui aus“ plus echtem Screenshot.
 
 ### 4.3 Anwendungsfälle `/fuer/…`
 discovery-calls, preisverhandlung, demo-calls, investorengespraeche, mitarbeitergespraeche, kundengespraeche-gruender. Kein Bereich für Prüfungen oder Bewerbungsgespräche (Spickzettel-Image vermeiden).
@@ -76,48 +80,29 @@ Suchvolumen liegt mir nicht vor. Die Liste ist eine begründete Startannahme und
 
 1. **Faktenblöcke:** Jede Seite beginnt mit 2–3 Sätzen, die als vollständige Antwort zitierbar sind (Wer, Was, für wen, Preis, Stand-Datum).
 2. **Konsistente Entität:** Überall derselbe Beschreibungssatz: „Loqui ist ein Gesprächscoach für den Mac, der Videocalls live mithört und im richtigen Moment Antworten, Fragen und Hinweise zeigt.“ Gleiche Schreibweise, gleicher Hersteller, gleiche Domain.
-3. **Profile anlegen (Fremdquellen):** LinkedIn-Unternehmensseite, Product Hunt, OMR Reviews (wichtig im DACH-Raum), G2, Capterra, Crunchbase, später Wikidata. Jeder Eintrag verlinkt auf useloqui.de.
+3. **Verzeichnis-Einträge (Fremdquellen):** Product Hunt, OMR Reviews (wichtig im DACH-Raum), G2, Capterra, Crunchbase, SaaS- und KI-Tool-Verzeichnisse, später Wikidata. Jeder Eintrag verlinkt auf useloqui.de und nutzt den einheitlichen Beschreibungssatz. Diese Einträge dienen als Quellen für Suchmaschinen und KI, nicht als Social-Media-Kanal.
 4. **Eigene Daten veröffentlichen:** Einmal im Quartal ein kurzer Report aus anonymisierten, freiwillig geteilten Nutzungsdaten, zum Beispiel „Wie viel reden Verkäufer in Discovery Calls wirklich?“. Eigene Zahlen werden am häufigsten zitiert. Nur mit Einwilligung der Nutzer und klarer Methodik.
-5. **Erwähnungen verdienen:** Gastbeiträge und Podcasts im DACH-Sales-Umfeld, Antworten in Fach-Communities (LinkedIn, Reddit r/sales, Slack-Gruppen), immer hilfreich statt werblich.
+5. **Erwähnungen verdienen (Digital PR):** Gastbeiträge in Sales-Fachmedien, Aufnahme in Tool-Vergleiche und „Beste KI-Tools“-Listen anderer Seiten, Daten-Report an Fachpresse. Ziel sind Links und Nennungen auf Seiten, die Google und KI-Suchen als Quelle nutzen.
 6. **llms.txt pflegen** und um `llms-full.txt` mit allen Kernseiten ergänzen (automatisch beim Build).
-7. **Messen:** Fester Fragenkatalog (siehe Abschnitt 8), monatlich in mehreren KI-Suchen geprüft: Wird Loqui genannt? Mit welcher Beschreibung? Welche Quelle wird zitiert?
+7. **Autor und Absender sichtbar machen (E-E-A-T):** Eine Seite `/ueber-uns` mit dir als Gründer, Foto und Vertriebshintergrund. Ratgeber und Vergleiche tragen einen Autor mit `Person`-Schema und Datum „zuletzt geprüft“. Google und KI-Suchen gewichten erkennbare Fachleute höher als anonyme Seiten.
+8. **Strukturierte Daten je Seitentyp:** `Article` mit Autor für Ratgeber, `FAQPage` für FAQ-Blöcke, `BreadcrumbList` für alle Unterseiten, `DefinedTerm` für das Glossar, `SoftwareApplication` mit Preisen nur auf Startseite und Vergleichen.
+9. **Antwortformat für AI Overviews:** Frage als Zwischenüberschrift, darunter die Antwort in 40–60 Wörtern, danach Details. Tabellen für Vergleiche, nummerierte Listen nur für echte Abfolgen.
+10. **Messen:** Fester Fragenkatalog (siehe Abschnitt 7), monatlich in mehreren KI-Suchen geprüft: Wird Loqui genannt? Mit welcher Beschreibung? Welche Quelle wird zitiert?
 
-## 6. TikTok
-
-### Rolle
-TikTok ist der Reichweiten-Kanal und selbst eine Suchmaschine. Videos werden über Untertitel, gesprochenen Text und Beschreibung gefunden. Jedes Video gehört zu einer Seite und umgekehrt.
-
-### Formate
-| Format | Inhalt | Verknüpfte Seite |
-|---|---|---|
-| Einwand der Woche | Kunde sagt „zu teuer“, Bildschirmaufnahme: Loqui zeigt die Antwort, Sprecher erklärt warum sie wirkt | /einwaende/zu-teuer |
-| Rate my call | Echtes (eingewilligtes) oder nachgespieltes Gespräch, Loqui-Bericht danach, drei Verbesserungen | /ratgeber/… |
-| Redeanteil-Challenge | „Ich habe 30 Minuten verkauft und 72 % geredet“ mit Ring-Anzeige | /ratgeber/redeanteil |
-| Mythos vs. Realität | „Gute Verkäufer reden viel“ und warum nicht | /glossar/… |
-| Founder-Log | Kurz und ehrlich: Was wir diese Woche gebaut haben | Startseite |
-
-### Regeln
-- Erste 1,5 Sekunden: der Satz des Kunden als großer Untertitel. Keine Logo-Intros.
-- Echte App-Aufnahmen statt Grafiken. Loqui-Overlay ist das visuelle Markenzeichen.
-- Suchbegriff im gesprochenen Text, im Untertitel und in der Beschreibung.
-- Frequenz: 4–5 Videos pro Woche, 1 Founder-Log.
-- Link in Bio mit UTM: `https://useloqui.de/?utm_source=tiktok&utm_medium=social`.
-- Auf der Website keine eingebetteten TikTok-Player (Drittanbieter-Skripte, Datenschutz). Stattdessen Vorschaubild mit Link.
-
-## 7. Messung und Ziele
+## 6. Messung und Ziele
 
 | Kennzahl | Quelle | Ziel nach 90 Tagen (Annahme) |
 |---|---|---|
 | Indexierte Seiten | Search Console | 60+ |
 | Impressionen / Klicks organisch | Search Console | 15.000 / 600 pro Monat |
 | Nennungen in KI-Antworten | Fragenkatalog | in 5 von 20 Prompts |
-| TikTok-Aufrufe | TikTok Analytics | 150.000 gesamt |
+| Verweise aus KI-Suchen (chatgpt.com, perplexity.ai u. a.) | Analytics | 50 Besuche pro Monat |
 | Early-Access-Anmeldungen | Formular-Datenbank | 500 |
-| Anteil Anmeldungen aus TikTok / Suche | UTM + Analytics | sichtbar getrennt |
+| Anteil Anmeldungen aus Suche / KI-Suchen | Analytics | sichtbar getrennt |
 
 Die Zielwerte sind Arbeitsannahmen ohne Vergleichsdaten und werden nach 30 Tagen anhand echter Zahlen angepasst.
 
-## 8. Automatisierung mit Claude
+## 7. Automatisierung mit Claude
 
 Zwei Werkzeuge stehen zur Verfügung:
 - **Geplante Aufgaben in der Claude-Desktop-App** (laufen auf dem Mac, wenn er an ist; gut für alles mit lokalen Dateien).
@@ -128,7 +113,7 @@ Grundregel: Jede Routine liefert einen Entwurf, einen Pull Request oder einen Be
 | Routine | Rhythmus | Was Claude tut | Ergebnis |
 |---|---|---|---|
 | **Content-Entwürfe** | Mo 07:00 | Wählt nach Redaktionsplan zwei Themen (z. B. ein Einwand, ein Ratgeber), recherchiert, schreibt Markdown nach Vorlage, aktualisiert interne Links | Pull Request mit Vercel-Vorschau zur Freigabe |
-| **TikTok-Skripte** | Mo 07:30 | Leitet aus den Seiten der Woche 5 Skripte ab: Hook, Ablauf, Bildschirmszenen, Untertitel, Beschreibung, Hashtags, Link | Datei `marketing/tiktok/JJJJ-KW.md` oder Notion-Seite |
+| **Interne Verlinkung** | Do 07:00 | Prüft neue und bestehende Seiten auf fehlende Querverweise (Einwand ↔ Ratgeber ↔ Glossar ↔ Vergleich) und verwaiste Seiten | Pull Request mit ergänzten Links |
 | **Technik-Check** | täglich 06:00 | Ruft alle Seiten aus der Sitemap ab, prüft Status, Weiterleitungen, kaputte Links, Schema, canonical, Ladezeit (PageSpeed-API) | Kurzmeldung nur bei Fehlern |
 | **SEO-Wochenbericht** | Fr 08:00 | Wertet Search-Console-Export aus: neue Suchbegriffe, Seiten auf Position 8–20 („fast oben“), sinkende Seiten | Bericht + konkrete Überarbeitungsvorschläge als Pull Request |
 | **GEO-Monitor** | 1. des Monats | Stellt den Fragenkatalog an mehrere KI-Suchen (per API, wo verfügbar) und protokolliert Nennungen, Beschreibung, zitierte Quellen | Tabelle mit Verlauf + Empfehlungen |
@@ -153,20 +138,19 @@ Voraussetzungen für die Automatisierung:
 8. Wie antworte ich auf den Einwand „zu teuer“?
 (bis 20 erweitern, Fragen nicht ändern, damit der Verlauf vergleichbar bleibt)
 
-## 9. Fahrplan 12 Wochen
+## 8. Fahrplan 12 Wochen
 
 | Woche | Schwerpunkt | Ergebnis |
 |---|---|---|
 | 1–2 | Fundament | Vercel-Git-Verbindung, Astro mit identischem Design, Vorlagen, Analytics, Formular, Bing + IndexNow |
-| 3–4 | Erste Inhalte | 5 Vergleichsseiten, 10 Einwand-Seiten, 4 Integrationsseiten, LinkedIn-, Product-Hunt-, OMR-Profile, TikTok-Konto mit ersten 8 Videos |
-| 5–8 | Rhythmus | 2 neue Seiten pro Woche über die Content-Routine, 4–5 TikToks pro Woche, alle Routinen aktiv |
-| 9–10 | Eigene Daten | Erster Report aus Nutzungsdaten (mit Einwilligung), Pressemeldung, Product-Hunt-Launch |
+| 3–4 | Erste Inhalte | 5 Vergleichsseiten, 10 Einwand-Seiten, 4 Integrationsseiten, Einträge bei Product Hunt, OMR Reviews, G2, Capterra |
+| 5–8 | Rhythmus | 2–3 neue Seiten pro Woche über die Content-Routine, bestehende Seiten nach SEO-Bericht nachschärfen, alle Routinen aktiv |
+| 9–10 | Eigene Daten und Englisch | Erster Report aus Nutzungsdaten (mit Einwilligung) an Fachpresse, Product-Hunt-Launch, erste 10 Seiten auf Englisch |
 | 11–12 | Auswertung | Zahlen gegen Ziele, Themen mit Wirkung ausbauen, schwache Seiten überarbeiten oder zusammenlegen |
 
-## 10. Risiken
+## 9. Risiken
 
 - **Massen-Inhalte:** Zu viele ähnliche, KI-geschriebene Seiten können ganze Domains abwerten. Gegenmittel: echte Beispiele, eigene Screenshots, menschliche Freigabe, lieber 2 gute als 10 dünne Seiten pro Woche.
 - **Namensdopplung „Loqui“:** Markensuche teilt sich die Ergebnisse mit einer Diktier-App. Gegenmittel: konsequent „Loqui Gesprächscoach“, Profile auf allen Plattformen, Schema mit Hersteller.
 - **Datenschutz:** Keine Tracking-Cookies, keine eingebetteten Drittanbieter, Einwilligung für Nutzungsdaten-Reports, Datenschutzerklärung bei jedem neuen Dienst ergänzen.
-- **TikTok-Glaubwürdigkeit:** Gespräche nur mit Einwilligung zeigen oder klar als nachgespielt kennzeichnen.
 - **Abhängigkeit vom Produkt:** Echte Screenshots und Videos setzen eine stabile App voraus. Bis dahin Inhalte ohne Produktbild vorbereiten.
