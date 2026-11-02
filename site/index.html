@@ -1,0 +1,412 @@
+<title>Loqui</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap">
+<style>
+  /* Layout: Apple-Produktseiten-Rhythmus, zentriert. Ein mutiges Element: der schillernde Lichtrand um den Bildschirm („Loqui hört zu“).
+     Bewusst nur hell. Farben: kühles Weiß, Tinte, ein Stimm-Spektrum (Teal → Blau → Violett → Rosé → Apricot) nur für Licht und Zahlen. */
+  :root {
+    color-scheme: light;
+    --bg: #fbfbfd;
+    --bg-2: #f2f3f7;
+    --ink: #1d1d1f;
+    --ink-2: #6e6e73;
+    --ink-3: #a1a1a6;
+    --line: rgba(29, 29, 31, 0.08);
+    --teal: #14b8c4;
+    --sky: #4f8cff;
+    --violet: #9b6bff;
+    --rose: #ff7aa8;
+    --apricot: #ffb86b;
+    --spectrum: linear-gradient(90deg, var(--teal), var(--sky) 30%, var(--violet) 55%, var(--rose) 78%, var(--apricot));
+    --font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Geist", "Helvetica Neue", Arial, sans-serif;
+    --font-round: ui-rounded, "SF Pro Rounded", -apple-system, "Geist", "Helvetica Neue", Arial, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  body { background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 17px; line-height: 1.47; letter-spacing: -0.01em; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  h1, h2, h3, p { margin: 0; }
+  h1, h2 { font-weight: 600; letter-spacing: -0.045em; line-height: 1.03; text-wrap: balance; }
+  h1 { font-size: clamp(3rem, 9vw, 6.5rem); }
+  h2 { font-size: clamp(2.2rem, 5.6vw, 4rem); }
+  h3 { font-size: clamp(1.5rem, 2.6vw, 2rem); font-weight: 600; letter-spacing: -0.03em; line-height: 1.1; text-wrap: balance; }
+  .lede { font-size: clamp(1.15rem, 2.2vw, 1.5rem); color: var(--ink-2); letter-spacing: -0.02em; text-wrap: balance; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); }
+  a { color: inherit; }
+
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 48px; padding: 0 24px; border-radius: 999px; font: 500 16px/1 var(--font); letter-spacing: -0.01em; text-decoration: none; cursor: pointer; border: 0; background: var(--ink); color: #fff; transition: transform .2s ease, box-shadow .2s ease; }
+  .btn:hover { transform: translateY(-1px); box-shadow: 0 10px 24px rgba(29,29,31,0.18); }
+  .link { color: var(--sky); text-decoration: none; font-size: 17px; }
+  .link:hover { text-decoration: underline; }
+  .btn:focus-visible, .link:focus-visible, input:focus-visible, summary:focus-visible { outline: 3px solid rgba(79,140,255,0.45); outline-offset: 3px; }
+
+  /* Navigation */
+  nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 30; background: rgba(251,251,253,0.72); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); border-bottom: 1px solid var(--line); }
+  body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 31; background: var(--bg); }
+  nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 52px; }
+  .logo { display: inline-flex; align-items: center; gap: 9px; font: 600 19px/1 var(--font-round); letter-spacing: -0.02em; text-decoration: none; }
+  .mark { width: 22px; height: 22px; border-radius: 50%; background: conic-gradient(from 200deg, var(--teal), var(--sky), var(--violet), var(--rose), var(--apricot), var(--teal)); position: relative; }
+  .mark::after { content: ""; position: absolute; inset: 5px; border-radius: 50%; background: var(--bg); }
+  nav ul { display: flex; gap: 28px; list-style: none; margin: 0; padding: 0; font-size: 13px; }
+  nav ul a { color: var(--ink-2); text-decoration: none; }
+  nav ul a:hover { color: var(--ink); }
+  nav .btn { height: 32px; padding: 0 14px; font-size: 13px; }
+  @media (max-width: 720px) { nav ul { display: none; } }
+
+  /* Hero */
+  .hero { padding-block: clamp(56px, 9vw, 112px) 0; text-align: center; position: relative; }
+  .hero::before { content: ""; position: absolute; left: 50%; top: 0; width: min(1200px, 140vw); height: 720px; transform: translateX(-50%); background:
+      radial-gradient(40% 50% at 25% 35%, rgba(20,184,196,0.16), transparent 70%),
+      radial-gradient(35% 45% at 75% 30%, rgba(155,107,255,0.14), transparent 70%),
+      radial-gradient(40% 40% at 55% 70%, rgba(255,122,168,0.10), transparent 70%);
+    pointer-events: none; }
+  .hero .wrap { position: relative; display: grid; gap: 24px; justify-items: center; }
+  .hero .actions { display: flex; flex-wrap: wrap; gap: 14px 28px; align-items: center; justify-content: center; margin-top: 10px; }
+  .hero form { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+  .hero input { height: 48px; padding: 0 20px; border-radius: 999px; border: 1px solid var(--line); background: #fff; color: var(--ink); font: 16px var(--font); width: 270px; max-width: 100%; box-shadow: 0 1px 2px rgba(0,0,0,0.04); }
+  .hero .ok { font-weight: 500; }
+  .note { font-size: 14px; color: var(--ink-3); }
+
+  /* Bildschirm mit Lichtrand */
+  .device { position: relative; width: min(100%, 1040px); margin: clamp(48px, 7vw, 80px) auto 0; }
+  .glow { position: absolute; inset: -3px; border-radius: 30px; background: conic-gradient(from var(--a, 0deg), var(--teal), var(--sky), var(--violet), var(--rose), var(--apricot), var(--teal)); filter: blur(0); z-index: 0; }
+  .glow.soft { inset: -26px; filter: blur(40px); opacity: .55; }
+  .screen { position: relative; z-index: 1; border-radius: 27px; overflow: hidden; aspect-ratio: 16 / 10; background:
+      radial-gradient(60% 70% at 15% 10%, #d7f3f6 0%, transparent 60%),
+      radial-gradient(55% 60% at 90% 20%, #e7defd 0%, transparent 60%),
+      radial-gradient(60% 60% at 60% 100%, #ffe3ec 0%, transparent 60%),
+      #f4f6fa;
+    text-align: left; }
+  .menubar { height: 28px; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; font-size: 12px; color: rgba(29,29,31,0.7); background: rgba(255,255,255,0.45); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+  .menubar b { font-weight: 600; }
+  .callwin { position: absolute; left: 7%; right: 7%; top: 13%; bottom: 7%; border-radius: 14px; background: #1e2227; box-shadow: 0 30px 60px rgba(29,29,31,0.25); overflow: hidden; display: grid; grid-template-rows: 30px 1fr; }
+  .callwin .bar { display: flex; align-items: center; gap: 6px; padding: 0 12px; background: #2a2f35; }
+  .callwin .bar i { width: 10px; height: 10px; border-radius: 50%; background: #ff5f57; }
+  .callwin .bar i:nth-child(2) { background: #febc2e; } .callwin .bar i:nth-child(3) { background: #28c840; }
+  .grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 6px; padding: 6px; }
+  .side { display: grid; gap: 6px; }
+  .person { position: relative; border-radius: 10px; overflow: hidden; }
+  .person.a { background: linear-gradient(160deg, #c9b6a4 0%, #8a7565 100%); }
+  .person.b { background: linear-gradient(160deg, #a8b9c6 0%, #6b7e8c 100%); }
+  .person.c { background: linear-gradient(160deg, #b9c2a6 0%, #7c8669 100%); }
+  .person::before { content: ""; position: absolute; left: 50%; bottom: 0; width: 46%; aspect-ratio: 1 / 1.05; transform: translateX(-50%); border-radius: 50% 50% 0 0; background: rgba(255,255,255,0.22); }
+  .person::after { content: ""; position: absolute; left: 50%; bottom: 40%; width: 20%; aspect-ratio: 1; transform: translateX(-50%); border-radius: 50%; background: rgba(255,255,255,0.28); }
+  .person.a { box-shadow: inset 0 0 0 2px #28c840; }
+  .person span { position: absolute; left: 8px; bottom: 8px; z-index: 1; font-size: 11px; color: #fff; background: rgba(0,0,0,0.4); padding: 2px 7px; border-radius: 5px; }
+
+  .dark-glass { background: rgba(28,32,38,0.62); border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(26px) saturate(180%); -webkit-backdrop-filter: blur(26px) saturate(180%); color: #f5f5f7; box-shadow: 0 20px 50px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.18); }
+  .pill { position: absolute; z-index: 3; top: 7%; left: 50%; transform: translateX(-50%); width: min(340px, 76%); height: 40px; border-radius: 999px; display: flex; align-items: center; gap: 10px; padding: 0 12px; font-size: 12px; }
+  .pill .rec { width: 7px; height: 7px; border-radius: 50%; background: #ff453a; box-shadow: 0 0 8px #ff453a; flex: none; }
+  .pill time { font: 600 12px var(--font-round); font-variant-numeric: tabular-nums; }
+  .pill .meter { width: 34px; height: 4px; border-radius: 4px; background: rgba(255,255,255,0.18); flex: none; overflow: hidden; }
+  .pill .meter i { display: block; width: 46%; height: 100%; background: #5ad8e6; }
+  .pill .prev { flex: 1; min-width: 0; font-weight: 600; color: #5ad8e6; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .pill .stop { width: 22px; height: 22px; border-radius: 50%; background: rgba(255,255,255,0.14); display: grid; place-items: center; flex: none; }
+  .pill .stop::after { content: ""; width: 7px; height: 7px; border-radius: 1.5px; background: #fff; }
+  .sheet { position: absolute; z-index: 3; top: calc(7% + 50px); left: 50%; transform: translateX(-50%); width: min(470px, 86%); border-radius: 20px; padding: 16px 18px; display: grid; gap: 9px; box-shadow: 0 24px 60px rgba(0,0,0,0.35), 0 0 50px rgba(90,216,230,0.25), inset 0 1px 0 rgba(255,255,255,0.18); }
+  .sheet .kind { font-size: 11px; font-weight: 600; color: #5ad8e6; }
+  .sheet .say { font: 500 clamp(14px, 1.9vw, 18px)/1.35 var(--font-round); letter-spacing: -0.01em; }
+  .sheet .src { font-size: 11.5px; color: rgba(245,245,247,0.5); }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip { font-size: 11px; font-weight: 500; padding: 5px 10px; border-radius: 999px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.18); }
+  .chip kbd { font: inherit; opacity: .55; margin-left: 4px; }
+  @media (max-width: 640px) { .screen { aspect-ratio: 4 / 5; } .grid { grid-template-columns: 1fr; } .side { display: none; } .chip:nth-child(n+3) { display: none; } }
+
+  /* Aussage */
+  .statement { padding-block: clamp(96px, 14vw, 180px); text-align: center; }
+  .statement p { font-size: clamp(1.9rem, 4.6vw, 3.4rem); font-weight: 600; letter-spacing: -0.04em; line-height: 1.12; max-width: 18em; margin: 0 auto; text-wrap: balance; color: var(--ink-3); }
+  .statement p span { color: var(--ink); }
+
+  /* Bento */
+  .bento { display: grid; grid-template-columns: repeat(6, 1fr); gap: 20px; }
+  .tile { border-radius: 30px; padding: clamp(26px, 3.4vw, 40px); display: grid; gap: 22px; align-content: space-between; overflow: hidden; position: relative; min-height: 380px; }
+  .tile .copy { display: grid; gap: 10px; }
+  .tile .copy p { color: var(--ink-2); font-size: 17px; max-width: 26em; }
+  .t-answer { grid-column: span 4; background: linear-gradient(150deg, #e3f8fa 0%, #eef4ff 60%, #f6f3ff 100%); }
+  .t-question { grid-column: span 2; background: linear-gradient(170deg, #fff4e8 0%, #ffeef3 100%); }
+  .t-talk { grid-column: span 2; background: linear-gradient(170deg, #f1ecff 0%, #eaf2ff 100%); }
+  .t-report { grid-column: span 4; background: #fff; box-shadow: 0 0 0 1px var(--line); align-content: center; gap: 36px; }
+  @media (max-width: 860px) { .bento { grid-template-columns: 1fr; } .tile { grid-column: auto !important; min-height: 0; } }
+
+  .say-card { border-radius: 20px; padding: 18px 20px; display: grid; gap: 8px; max-width: 520px; }
+  .say-card .kind { font-size: 12px; font-weight: 600; color: #5ad8e6; }
+  .say-card .say { font: 500 clamp(17px, 2vw, 21px)/1.35 var(--font-round); }
+  .say-card .src { font-size: 12px; color: rgba(245,245,247,0.5); }
+  .bubble { align-self: end; justify-self: start; border-radius: 22px 22px 22px 6px; padding: 16px 18px; background: #fff; box-shadow: 0 12px 30px rgba(255,122,168,0.18); font: 500 18px/1.35 var(--font-round); max-width: 18em; }
+  .bubble small { display: block; font: 600 12px var(--font); color: #e0802a; margin-bottom: 6px; }
+
+  .ring { width: 170px; height: 170px; border-radius: 50%; justify-self: center; display: grid; place-items: center; background: conic-gradient(var(--violet) 0 58%, rgba(155,107,255,0.14) 58% 100%); position: relative; }
+  .ring::before { content: ""; position: absolute; inset: 14px; border-radius: 50%; background: #f3efff; }
+  .ring b { position: relative; font: 600 40px/1 var(--font-round); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+  .ring small { position: relative; display: block; text-align: center; font-size: 13px; color: var(--ink-2); margin-top: 4px; }
+
+  .report { display: grid; grid-template-columns: auto 1fr; gap: 14px 22px; align-items: center; font-size: 16px; }
+  .report time { font: 500 15px var(--font-round); color: var(--ink-3); font-variant-numeric: tabular-nums; }
+  .report .row { display: flex; align-items: center; gap: 12px; }
+  .report .dot { width: 10px; height: 10px; border-radius: 50%; flex: none; }
+
+  /* Zahlen */
+  .numbers { padding-block: clamp(96px, 12vw, 160px); }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; text-align: center; }
+  @media (max-width: 760px) { .stats { grid-template-columns: 1fr; gap: 48px; } }
+  .stat b { display: block; font: 600 clamp(4rem, 9vw, 6.5rem)/1 var(--font-round); letter-spacing: -0.05em; font-variant-numeric: tabular-nums; background: var(--spectrum); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .stat:nth-child(1) b { background: linear-gradient(90deg, var(--teal), var(--sky)); -webkit-background-clip: text; background-clip: text; }
+  .stat:nth-child(2) b { background: linear-gradient(90deg, var(--sky), var(--violet)); -webkit-background-clip: text; background-clip: text; }
+  .stat:nth-child(3) b { background: linear-gradient(90deg, var(--rose), var(--apricot)); -webkit-background-clip: text; background-clip: text; }
+  .stat p { margin-top: 12px; color: var(--ink-2); font-size: 17px; }
+
+  /* Offen */
+  .open { padding-block: clamp(80px, 10vw, 140px); background: var(--bg-2); text-align: center; }
+  .open .wrap { display: grid; gap: 22px; justify-items: center; }
+  .consent { display: inline-flex; align-items: center; gap: 14px; padding: 14px 22px; border-radius: 18px; background: #fff; box-shadow: 0 10px 30px rgba(29,29,31,0.06); font-size: 16px; margin-top: 10px; }
+  .toggle { width: 44px; height: 26px; border-radius: 999px; background: linear-gradient(90deg, var(--teal), var(--sky)); position: relative; flex: none; }
+  .toggle::after { content: ""; position: absolute; right: 3px; top: 3px; width: 20px; height: 20px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+  .facts { display: flex; flex-wrap: wrap; gap: 12px 40px; justify-content: center; margin-top: 18px; }
+  .facts div { display: grid; gap: 4px; }
+  .facts b { font-size: 17px; font-weight: 600; }
+  .facts span { font-size: 15px; color: var(--ink-2); }
+
+  /* Preise */
+  .pricing { padding-block: clamp(96px, 12vw, 160px); }
+  .center { text-align: center; display: grid; gap: 14px; justify-items: center; margin-bottom: 56px; }
+  .plans { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 780px; margin: 0 auto; }
+  @media (max-width: 680px) { .plans { grid-template-columns: 1fr; } }
+  .plan { border-radius: 30px; padding: 34px; display: grid; gap: 22px; align-content: start; background: #fff; box-shadow: 0 0 0 1px var(--line); }
+  .plan.pro { position: relative; box-shadow: none; }
+  .plan.pro::before { content: ""; position: absolute; inset: 0; border-radius: 30px; padding: 2px; background: var(--spectrum); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; }
+  .plan .name { font-size: 21px; font-weight: 600; }
+  .plan .price { font: 600 56px/1 var(--font-round); letter-spacing: -0.04em; }
+  .plan .price small { font: 400 17px var(--font); color: var(--ink-2); letter-spacing: 0; }
+  .plan ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; color: var(--ink-2); }
+  .plan li { display: flex; gap: 10px; }
+  .plan li::before { content: ""; width: 16px; height: 16px; margin-top: 4px; border-radius: 50%; flex: none; background: radial-gradient(circle, #fff 30%, transparent 32%), linear-gradient(135deg, var(--teal), var(--sky)); }
+  .plan .btn { width: 100%; }
+  .plan .btn.light { background: var(--bg-2); color: var(--ink); }
+
+  /* FAQ */
+  .faq { padding-block: 0 clamp(96px, 12vw, 160px); }
+  .faq .list { max-width: 720px; margin: 0 auto; }
+  details { border-bottom: 1px solid var(--line); }
+  summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 22px 2px; font-size: 19px; font-weight: 500; letter-spacing: -0.02em; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: "+"; font-size: 26px; font-weight: 300; color: var(--ink-3); transition: transform .25s ease; }
+  details[open] summary::after { transform: rotate(45deg); }
+  details p { padding: 0 2px 22px; color: var(--ink-2); max-width: 56ch; }
+
+  /* Abschluss */
+  .closing { padding-block: 0 40px; }
+  .finale { position: relative; border-radius: 40px; overflow: hidden; padding: clamp(72px, 11vw, 140px) 24px; text-align: center; display: grid; gap: 26px; justify-items: center; background:
+      radial-gradient(60% 90% at 10% 0%, rgba(20,184,196,0.35), transparent 60%),
+      radial-gradient(50% 80% at 90% 10%, rgba(155,107,255,0.35), transparent 60%),
+      radial-gradient(60% 80% at 50% 110%, rgba(255,122,168,0.35), transparent 60%),
+      radial-gradient(40% 60% at 85% 95%, rgba(255,184,107,0.35), transparent 60%),
+      #f7f6fb; }
+  footer { padding-block: 32px 48px; font-size: 12px; color: var(--ink-3); }
+  footer .wrap { display: flex; flex-wrap: wrap; gap: 12px 24px; justify-content: space-between; }
+  footer nav { all: unset; display: flex; gap: 20px; }
+  footer a { text-decoration: none; }
+  footer a:hover { color: var(--ink); }
+
+  @property --a { syntax: "<angle>"; initial-value: 0deg; inherits: false; }
+  @media (prefers-reduced-motion: no-preference) {
+    .glow { animation: spin 9s linear infinite; }
+    @keyframes spin { to { --a: 360deg; } }
+  }
+</style>
+
+<nav aria-label="Hauptnavigation">
+  <div class="wrap">
+    <a class="logo" href="#top"><span class="mark" aria-hidden="true"></span>Loqui</a>
+    <ul>
+      <li><a href="#funktionen">Funktionen</a></li>
+      <li><a href="#datenschutz">Datenschutz</a></li>
+      <li><a href="#preise">Preise</a></li>
+      <li><a href="#fragen">Fragen</a></li>
+    </ul>
+    <a class="btn" href="#zugang">Early Access</a>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <h1>Wisse immer,<br>was du sagst.</h1>
+    <p class="lede">Der Gesprächscoach, der live mithört und dir im richtigen Moment hilft.</p>
+    <div class="actions" id="zugang">
+      <form id="access-form">
+        <label for="email" hidden>E-Mail</label>
+        <input id="email" type="email" required placeholder="name@firma.de" autocomplete="email">
+        <button class="btn" type="submit">Early Access anfragen</button>
+      </form>
+      <p class="ok" id="access-ok" hidden>Danke. Wir melden uns bei dir.</p>
+      <a class="link" href="#funktionen">So funktioniert Loqui ›</a>
+    </div>
+    <p class="note">Für den Mac. Mit Zoom, Google Meet, Teams und Slack.</p>
+
+    <div class="device">
+      <div class="glow soft" aria-hidden="true"></div>
+      <div class="glow" aria-hidden="true"></div>
+      <div class="screen" role="img" aria-label="Loqui über einem laufenden Videocall: Der Kunde nennt den Preis zu hoch, Loqui schlägt eine Antwort vor.">
+        <div class="menubar"><b>Zoom</b><span>Mo 14:32</span></div>
+        <div class="callwin">
+          <div class="bar"><i></i><i></i><i></i></div>
+          <div class="grid">
+            <div class="person a"><span>Thomas Meyer</span></div>
+            <div class="side">
+              <div class="person b"><span>Du</span></div>
+              <div class="person c"><span>Sandra Kühn</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="pill dark-glass">
+          <span class="rec"></span><time>12:41</time>
+          <span class="meter"><i></i></span>
+          <span class="prev">Preis-Einwand</span>
+          <span class="stop"></span>
+        </div>
+        <div class="sheet dark-glass">
+          <span class="kind">Antwort</span>
+          <p class="say">„49 € pro Nutzer, und die doppelte Pflege in Excel fällt weg. Wie viele Stunden sind das bei Ihnen pro Woche?“</p>
+          <p class="src">Aus: Preise, Case Meyer GmbH</p>
+          <div class="chips">
+            <span class="chip">Was soll ich sagen? <kbd>⌥␣</kbd></span>
+            <span class="chip">Nächste Frage</span>
+            <span class="chip">Einwand</span>
+            <span class="chip">Zusammenfassen</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="statement">
+  <div class="wrap">
+    <p><span>Loqui hört zu.</span> Und sagt dir genau dann, was hilft, wenn es zählt. Nicht mehr. Nicht später.</p>
+  </div>
+</section>
+
+<section id="funktionen">
+  <div class="wrap">
+    <div class="bento">
+      <article class="tile t-answer">
+        <div class="copy">
+          <h3>Die Antwort, bevor die Pause zu lang wird.</h3>
+          <p>Aus deiner Wissensbasis, mit Quelle. Was dort fehlt, erfindet Loqui nicht.</p>
+        </div>
+        <div class="say-card dark-glass">
+          <span class="kind">Antwort</span>
+          <p class="say">„Unsere Server stehen in Frankfurt. Den AV-Vertrag schicke ich Ihnen heute noch.“</p>
+          <p class="src">Aus: Datenschutz</p>
+        </div>
+      </article>
+
+      <article class="tile t-question">
+        <div class="copy">
+          <h3>Die eine Frage, die fehlt.</h3>
+        </div>
+        <p class="bubble"><small>Nächste Frage</small>„Was passiert, wenn das bis Q2 nicht gelöst ist?“</p>
+      </article>
+
+      <article class="tile t-talk">
+        <div class="copy">
+          <h3>Dein Redeanteil, live.</h3>
+        </div>
+        <div class="ring"><div><b>58 %</b><small>du</small></div></div>
+      </article>
+
+      <article class="tile t-report">
+        <div class="copy">
+          <h3>Ehrliches Feedback nach jedem Call.</h3>
+          <p>Was gut lief. Was du beim nächsten Mal anders machst.</p>
+        </div>
+        <div class="report">
+          <time>12:41</time><div class="row"><span class="dot" style="background:var(--teal)"></span>Preis-Einwand sauber in Nutzen übersetzt.</div>
+          <time>18:05</time><div class="row"><span class="dot" style="background:var(--apricot)"></span>Frage nach dem Zeitdruck fehlte.</div>
+          <time>22:00</time><div class="row"><span class="dot" style="background:var(--violet)"></span>Zweieinhalb Minuten am Stück geredet.</div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="numbers">
+  <div class="wrap">
+    <div class="stats">
+      <div class="stat"><b>&lt;1 s</b><p>vom Satzende zum Transkript</p></div>
+      <div class="stat"><b>2,5 s</b><p>bis zum Vorschlag</p></div>
+      <div class="stat"><b>0</b><p>Sekunden Audio gespeichert</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="open" id="datenschutz">
+  <div class="wrap">
+    <h2>Coach. Nicht Spickzettel.</h2>
+    <p class="lede">Loqui arbeitet offen. Alle im Call wissen, dass ein Coach mithört.</p>
+    <div class="consent"><span class="toggle" aria-hidden="true"></span>Alle Teilnehmenden wissen Bescheid</div>
+    <div class="facts">
+      <div><b>Kein Bot im Call</b><span>Loqui läuft auf deinem Mac.</span></div>
+      <div><b>Kein Audio gespeichert</b><span>Nur Text, nur wenn du willst.</span></div>
+      <div><b>Deine Daten bleiben bei dir</b><span>Berichte liegen lokal.</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="pricing" id="preise">
+  <div class="wrap">
+    <div class="center">
+      <h2>Einfach anfangen.</h2>
+    </div>
+    <div class="plans">
+      <div class="plan">
+        <span class="name">Starter</span>
+        <span class="price">0 €</span>
+        <ul><li>5 Gespräche im Monat</li><li>Antworten, Fragen, Hinweise</li><li>Feedback nach jedem Call</li></ul>
+        <a class="btn light" href="#zugang">Early Access anfragen</a>
+      </div>
+      <div class="plan pro">
+        <span class="name">Pro</span>
+        <span class="price">19 € <small>im Monat</small></span>
+        <ul><li>Unbegrenzt Gespräche</li><li>Eigene Wissensbasis</li><li>Verlauf über alle Calls</li></ul>
+        <a class="btn" href="#zugang">Early Access anfragen</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="faq" id="fragen">
+  <div class="wrap">
+    <div class="center"><h2>Fragen.</h2></div>
+    <div class="list">
+      <details><summary>Was unterscheidet Loqui von Granola?</summary><p>Granola schreibt mit. Loqui hilft dir, während du sprichst.</p></details>
+      <details><summary>Sieht mein Gegenüber die Vorschläge?</summary><p>Nein. Loqui ist ein eigenes Fenster und erscheint nicht, wenn du deinen Bildschirm teilst.</p></details>
+      <details><summary>Lenkt das nicht ab?</summary><p>Loqui zeigt höchstens einen Vorschlag auf einmal. Wie oft, stellst du ein.</p></details>
+      <details><summary>Woher kennt Loqui unsere Preise?</summary><p>Aus deiner Wissensbasis. Was dort nicht steht, erfindet Loqui nicht.</p></details>
+      <details><summary>Gibt es Loqui für Windows?</summary><p>Noch nicht. Wir starten mit dem Mac.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="closing">
+  <div class="wrap">
+    <div class="finale">
+      <h2>Dein bestes Gespräch<br>kommt noch.</h2>
+      <a class="btn" href="#zugang">Early Access anfragen</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Loqui</span>
+    <nav aria-label="Rechtliches"><a href="#top">Impressum</a><a href="#datenschutz">Datenschutz</a></nav>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('access-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    this.hidden = true;
+    document.getElementById('access-ok').hidden = false;
+  });
+</script>

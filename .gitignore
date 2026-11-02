@@ -1,0 +1,25 @@
+# Abhängigkeiten und Builds
+node_modules
+node_modules.nosync/
+.next
+.next.nosync/
+.next 2/
+*.nosync/
+*.tsbuildinfo
+next-env.d.ts
+mac/build
+mac/.build/
+out/
+coverage/
+
+# Geheimnisse: nur die Vorlage einchecken
+.env
+.env.*
+!.env.example
+*.pem
+*.p12
+
+# System und lokale Werkzeuge
+.DS_Store
+.claude/
+npm-debug.log*
