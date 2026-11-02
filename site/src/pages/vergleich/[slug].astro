@@ -1,0 +1,21 @@
+---
+import Article from '../../layouts/Article.astro';
+import { getCollection, render } from 'astro:content';
+import { isLive } from '../../lib/live';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('vergleich', isLive);
+  return entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+<Article data={entry.data} hub={{ href: '/vergleich', label: 'Vergleiche' }} path={`/vergleich/${entry.id}`}>
+  <div slot="top" class="table-wrap">
+    <table>
+      <thead><tr><th></th><th class="you">Loqui</th><th>{entry.data.competitor}</th></tr></thead>
+      <tbody>{entry.data.rows.map((r) => <tr><td>{r.label}</td><td>{r.loqui}</td><td>{r.other}</td></tr>)}</tbody>
+    </table>
+  </div>
+  <Content />
+</Article>

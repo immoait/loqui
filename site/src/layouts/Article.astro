@@ -1,0 +1,114 @@
+---
+// Vorlage für alle Inhaltsseiten: Breadcrumbs, Überschrift, „Kurz gesagt“-Karte (GEO),
+// Text, FAQ, verwandte Seiten und Abschluss. Erzeugt Article-, Breadcrumb- und FAQ-Schema.
+import Base from './Base.astro';
+import product from '../data/product.json';
+import { getEntry } from 'astro:content';
+
+interface Props {
+  data: {
+    title: string;
+    description: string;
+    kurz: string;
+    updated: Date;
+    draft: boolean;
+    faq: { q: string; a: string }[];
+    related: string[];
+  };
+  hub: { href: string; label: string };
+  path: string;
+  type?: 'Article' | 'DefinedTerm';
+  headline?: string;
+}
+const { data, hub, path, type = 'Article', headline } = Astro.props;
+const url = `${product.url}${path}`;
+const updated = data.updated.toISOString().slice(0, 10);
+const updatedText = data.updated.toLocaleDateString('de-DE', { day: 'numeric', month: 'long', year: 'numeric' });
+
+const hubs: Record<string, string> = { vergleich: '/vergleich', einwaende: '/einwaende', ratgeber: '/ratgeber', glossar: '/glossar', integrationen: '' };
+const related = (
+  await Promise.all(
+    data.related.map(async (ref) => {
+      const [collection, id] = ref.split('/');
+      const entry = await getEntry(collection as any, id);
+      if (!entry || (import.meta.env.PROD && entry.data.draft)) return null;
+      const base = hubs[collection] ?? '';
+      return { href: `${base}/${id}`, title: entry.data.title, description: entry.data.description };
+    }),
+  )
+).filter(Boolean) as { href: string; title: string; description: string }[];
+
+const crumbs = [
+  { name: 'Loqui', item: `${product.url}/` },
+  ...(hub.href ? [{ name: hub.label, item: `${product.url}${hub.href}` }] : []),
+  { name: data.title, item: url },
+];
+
+const schema: object[] = [
+  {
+    '@type': 'BreadcrumbList',
+    itemListElement: crumbs.map((c, i) => ({ '@type': 'ListItem', position: i + 1, name: c.name, item: c.item })),
+  },
+  type === 'DefinedTerm'
+    ? { '@type': 'DefinedTerm', name: headline ?? data.title, description: data.kurz, url, inDefinedTermSet: `${product.url}/glossar` }
+    : {
+        '@type': 'Article',
+        headline: data.title,
+        description: data.description,
+        url,
+        dateModified: updated,
+        inLanguage: 'de',
+        author: { '@type': 'Organization', name: product.author, url: `${product.url}/` },
+        publisher: { '@id': `${product.url}/#org` },
+        image: `${product.url}/og.png`,
+      },
+];
+if (data.faq.length) {
+  schema.push({
+    '@type': 'FAQPage',
+    mainEntity: data.faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+  });
+}
+---
+<Base title={`${data.title} – Loqui`} description={data.description} path={path} schema={schema} noindex={data.draft}>
+  <main class="page">
+    <div class="wrap">
+      <ol class="crumbs" aria-label="Brotkrumen">
+        <li><a href="/">Loqui</a></li>
+        {hub.href && <li><a href={hub.href}>{hub.label}</a></li>}
+        <li aria-current="page">{data.title}</li>
+      </ol>
+      <h1>{data.title}</h1>
+      <p class="lede">{data.description}</p>
+      <p class="meta">Zuletzt geprüft am <time datetime={updated}>{updatedText}</time> · {product.author}</p>
+
+      <div class="kurz"><b>Kurz gesagt</b><p>{data.kurz}</p></div>
+
+      <slot name="top" />
+
+      <div class="prose"><slot /></div>
+
+      {data.faq.length > 0 && (
+        <section class="faq">
+          <h2>Fragen.</h2>
+          <div class="list">
+            {data.faq.map((f) => <details><summary>{f.q}</summary><p>{f.a}</p></details>)}
+          </div>
+        </section>
+      )}
+
+      {related.length > 0 && (
+        <section class="related">
+          <h2>Passend dazu</h2>
+          <ul>{related.map((r) => <li><a href={r.href}><b>{r.title}</b><span>{r.description}</span></a></li>)}</ul>
+        </section>
+      )}
+
+      <section class="cta-band">
+        <h2>Die richtige Antwort, live im Gespräch.</h2>
+        <p>{product.oneLiner}</p>
+        <a class="btn" href="/#zugang">Early Access anfragen</a>
+      </section>
+    </div>
+  </main>
+</Base>

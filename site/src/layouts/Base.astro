@@ -1,0 +1,91 @@
+---
+import '../styles/global.css';
+import product from '../data/product.json';
+import { getCollection } from 'astro:content';
+import { isLive } from '../lib/live';
+
+interface Props {
+  title: string;
+  description: string;
+  path: string;
+  schema?: object[];
+  noindex?: boolean;
+  ogImage?: string;
+}
+const { title, description, path, schema = [], noindex = false, ogImage = '/og.png' } = Astro.props;
+const url = new URL(path, product.url).href.replace(/\/$/, path === '/' ? '/' : '');
+const og = new URL(ogImage, product.url).href;
+
+const org = {
+  '@type': 'Organization',
+  '@id': `${product.url}/#org`,
+  name: product.name,
+  legalName: product.publisher.legalName,
+  url: `${product.url}/`,
+  logo: `${product.url}/apple-touch-icon.png`,
+  address: { '@type': 'PostalAddress', addressLocality: product.publisher.locality, addressCountry: product.publisher.country },
+};
+const graph = { '@context': 'https://schema.org', '@graph': [org, ...schema] };
+
+// Footer verlinkt nur Bereiche, die schon Inhalte haben.
+const live = isLive;
+const hubs = [
+  { href: '/vergleich', label: 'Vergleiche', n: (await getCollection('vergleich', live)).length },
+  { href: '/einwaende', label: 'Einwände', n: (await getCollection('einwaende', live)).length },
+  { href: '/ratgeber', label: 'Ratgeber', n: (await getCollection('ratgeber', live)).length },
+  { href: '/glossar', label: 'Glossar', n: (await getCollection('glossar', live)).length },
+].filter((h) => h.n > 0);
+---
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>{title}</title>
+<meta name="description" content={description}>
+<link rel="canonical" href={url}>
+{noindex && <meta name="robots" content="noindex">}
+<meta property="og:type" content="website">
+<meta property="og:url" content={url}>
+<meta property="og:title" content={title}>
+<meta property="og:description" content={description}>
+<meta property="og:image" content={og}>
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="de_DE">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="sitemap" href="/sitemap-index.xml">
+<meta name="theme-color" content="#fbfbfd">
+<script type="application/ld+json" set:html={JSON.stringify(graph)} />
+</head>
+<body>
+<nav class="topbar" aria-label="Hauptnavigation">
+  <div class="wrap">
+    <a class="logo" href="/"><span class="mark" aria-hidden="true"></span>Loqui</a>
+    <ul>
+      <li><a href="/#funktionen">Funktionen</a></li>
+      <li><a href="/#datenschutz">Datenschutz</a></li>
+      <li><a href="/#preise">Preise</a></li>
+      <li><a href="/#fragen">Fragen</a></li>
+    </ul>
+    <a class="btn" href="/#zugang">Early Access</a>
+  </div>
+</nav>
+
+<slot />
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Loqui</span>
+    {hubs.length > 0 && (
+      <nav class="legal" aria-label="Inhalte">
+        {hubs.map((h) => <a href={h.href}>{h.label}</a>)}
+      </nav>
+    )}
+    <nav class="legal" aria-label="Rechtliches"><a href="/impressum">Impressum</a><a href="/datenschutz">Datenschutz</a></nav>
+  </div>
+</footer>
+</body>
+</html>

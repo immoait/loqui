@@ -1,0 +1,9 @@
+---
+import Hub from '../../layouts/Hub.astro';
+import { getCollection } from 'astro:content';
+import { isLive } from '../../lib/live';
+
+const entries = (await getCollection('glossar', isLive)).sort((a, b) => a.data.title.localeCompare(b.data.title, 'de'));
+const items = entries.map((e) => ({ href: `/glossar/${e.id}`, title: e.data.title, description: e.data.description }));
+---
+<Hub title="Glossar" lede="Begriffe aus dem Vertrieb, kurz und klar erklärt." description="Vertriebsbegriffe kurz erklärt: Redeanteil, Discovery Call, BANT, MEDDIC, SPIN und mehr." path="/glossar" items={items} />

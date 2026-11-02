@@ -1,0 +1,16 @@
+---
+// Integrationsseiten direkt unter der Domain, z. B. /zoom.
+import Article from '../layouts/Article.astro';
+import { getCollection, render } from 'astro:content';
+import { isLive } from '../lib/live';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('integrationen', isLive);
+  return entries.map((entry) => ({ params: { app: entry.id }, props: { entry } }));
+}
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+<Article data={entry.data} hub={{ href: '', label: '' }} path={`/${entry.id}`}>
+  <Content />
+</Article>

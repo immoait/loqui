@@ -1,0 +1,9 @@
+---
+import Hub from '../../layouts/Hub.astro';
+import { getCollection } from 'astro:content';
+import { isLive } from '../../lib/live';
+
+const entries = (await getCollection('ratgeber', isLive)).sort((a, b) => a.data.title.localeCompare(b.data.title, 'de'));
+const items = entries.map((e) => ({ href: `/ratgeber/${e.id}`, title: e.data.title, description: e.data.description }));
+---
+<Hub title="Ratgeber" lede="Wie gute Verkaufsgespräche funktionieren. Konkret, mit Vorlagen zum Mitnehmen." description="Ratgeber für bessere Verkaufsgespräche: Redeanteil, Discovery-Fragen, Preisgespräche und Gesprächsleitfäden im B2B-Vertrieb." path="/ratgeber" items={items} />
