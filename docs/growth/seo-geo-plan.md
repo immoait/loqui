@@ -129,7 +129,7 @@ Voraussetzungen für die Automatisierung:
 
 ### Fragenkatalog GEO (Start)
 1. Welche KI-Tools helfen live bei Verkaufsgesprächen?
-2. Gibt es eine Alternative zu Cluely, die nicht heimlich arbeitet?
+2. Welche Cluely-Alternative antwortet aus eigenen Unterlagen?
 3. Bester Echtzeit-Coach für Zoom-Calls auf dem Mac?
 4. Wie kann ich meinen Redeanteil im Verkaufsgespräch messen?
 5. Granola Alternative mit Live-Hilfe?

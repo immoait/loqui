@@ -1,17 +1,14 @@
 ---
 title: Loqui vs. Cluely
 seoTitle: "Loqui vs. Cluely: Unterschiede, Preise, Datenschutz"
-description: "Loqui und Cluely im Vergleich: Beide helfen live im Videocall. Cluely setzt auf Unsichtbarkeit, Loqui auf Offenheit und Antworten aus deiner Wissensbasis."
-kurz: Cluely und Loqui zeigen während eines Videocalls KI-Vorschläge an. Cluely wirbt damit, für andere Teilnehmende unsichtbar zu sein, und verlangt für die volle Tarnung 149,99 US-Dollar im Monat. Loqui arbeitet offen, zieht Antworten mit Quelle aus deiner Wissensbasis und kostet in der Pro-Version 19 Euro im Monat.
+description: "Loqui und Cluely im Vergleich: Beide helfen live im Videocall. Loqui antwortet aus deinen Unterlagen und coacht dich, Cluely nutzt allgemeines KI-Wissen."
+kurz: Cluely und Loqui zeigen während eines Videocalls KI-Vorschläge an. Cluely antwortet mit allgemeinem KI-Wissen und kostet bis zu 149,99 US-Dollar im Monat. Loqui antwortet aus deiner eigenen Wissensbasis mit Quelle, zeigt deinen Redeanteil live, gibt Feedback nach jedem Gespräch und kostet in der Pro-Version 19 Euro im Monat.
 updated: 2026-11-02
 competitor: Cluely
 rows:
   - label: Hilfe während des Gesprächs
     loqui: Ja, Antwort, nächste Frage, Hinweis
     other: Ja, Antworten auf Knopfdruck
-  - label: Haltung
-    loqui: Offen, alle wissen Bescheid
-    other: Wirbt mit Unsichtbarkeit
   - label: Woher die Antworten kommen
     loqui: Deine Wissensbasis, mit Quelle
     other: Allgemeines KI-Wissen, eigene Dateien möglich
@@ -32,9 +29,9 @@ rows:
     other: 0 $, 19,99 $ oder 149,99 $ im Monat
 faq:
   - q: Ist Loqui eine Cluely-Alternative?
-    a: Ja, wenn du live Hilfe im Gespräch willst, aber offen arbeiten möchtest. Loqui zeigt dieselbe Art von Vorschlägen, ohne sich vor deinem Gegenüber zu verstecken.
-  - q: Ist Cluely für mein Gegenüber unsichtbar?
-    a: Das ist Cluelys zentrales Versprechen. Die volle Tarnung bei Bildschirmfreigaben bietet Cluely im Tarif „Pro + Undetectability“ für 149,99 US-Dollar im Monat an.
+    a: "Ja. Loqui hilft wie Cluely live im Gespräch, antwortet aber aus deinen eigenen Unterlagen und zeigt dir zusätzlich, wie du besser wirst: Redeanteil live und Feedback nach jedem Gespräch."
+  - q: Sieht mein Gegenüber die Vorschläge?
+    a: Bei beiden nicht. Beide laufen als eigenes Fenster und treten dem Meeting nicht bei. Cluely bietet den Schutz bei Bildschirmfreigaben ausdrücklich im Tarif „Pro + Undetectability“ für 149,99 US-Dollar im Monat an.
   - q: Was ist günstiger?
     a: Beide haben einen kostenlosen Einstieg. Die bezahlten Stufen liegen bei 19 Euro (Loqui Pro) und 19,99 bis 149,99 US-Dollar (Cluely) im Monat.
 related:
@@ -47,17 +44,13 @@ related:
 
 Beide Tools laufen als Fenster auf deinem Rechner, hören das Gespräch mit und zeigen dir Vorschläge, während du sprichst. Keines tritt dem Meeting als Bot bei. Damit unterscheiden sich beide grundsätzlich von Notiz-Tools wie Granola oder Fireflies, die erst nach dem Gespräch helfen.
 
-## Der eigentliche Unterschied: Haltung
-
-Cluely stellt Unsichtbarkeit in den Mittelpunkt. Die Startseite nennt das Produkt „Undetectable AI for Meetings“, und der teuerste Tarif bezahlt genau dafür.
-
-Loqui geht den anderen Weg. Beim Start bestätigst du, dass alle Teilnehmenden wissen, dass ein Coach mithört. Das ist kein Detail, sondern eine Entscheidung für eine bestimmte Art von Nutzer: Menschen, die gut sind und besser werden wollen, und die das offen sagen können.
-
-## Woher die Antworten kommen
+## Der eigentliche Unterschied: Antworten und Coaching
 
 Loqui antwortet aus deiner eigenen Wissensbasis: Preise, Referenzen, Einwände, Wettbewerb. Jede Antwort zeigt die Quelle. Steht etwas nicht in der Wissensbasis, sagt Loqui das, statt eine Zahl zu erfinden. Im Vertrieb ist das der Unterschied zwischen einer Hilfe und einem Risiko.
 
 Cluely nutzt allgemeines KI-Wissen und lässt sich mit eigenen Anweisungen und Dateien ergänzen.
+
+Dazu kommt das Coaching. Loqui zeigt dir live deinen Redeanteil und weist dich auf Monologe hin. Nach dem Gespräch bekommst du Feedback mit Zeitmarken: was gut lief und was du beim nächsten Mal anders machst. So wirst du mit jedem Gespräch besser, statt nur durch eines durchzukommen.
 
 ## Wann Cluely die bessere Wahl ist
 
@@ -69,6 +62,6 @@ Cluely nutzt allgemeines KI-Wissen und lässt sich mit eigenen Anweisungen und D
 
 - Du führst Verkaufs-, Investoren- oder Mitarbeitergespräche und willst, dass Antworten aus deinen eigenen Unterlagen kommen.
 - Du willst dein Gesprächsverhalten verbessern: Redeanteil, Monologe, fehlende Fragen.
-- Offenheit gegenüber Kunden und Kollegen ist dir wichtig, oder deine Firma verlangt sie.
+- Du willst Antworten mit Quelle, damit du keine falschen Preise oder Zusagen nennst.
 
 Die Angaben zu Cluely stammen von cluely.com (Startseite und Preisseite), Stand 2. November 2026.
