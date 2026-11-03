@@ -9,7 +9,7 @@ faq:
   - q: Muss ich in Zoom etwas installieren?
     a: Nein. Loqui nutzt die Mac-Freigaben für Mikrofon und Systemaudio. In Zoom selbst ändert sich nichts.
   - q: Sehen andere Teilnehmende Loqui?
-    a: Loqui tritt dem Meeting nicht bei und erscheint nicht in deiner Bildschirmfreigabe. Wir empfehlen trotzdem, offen zu sagen, dass ein Coach mithört.
+    a: Loqui tritt dem Meeting nicht bei und erscheint nicht in deiner Bildschirmfreigabe. Die Vorschläge siehst nur du.
   - q: Funktioniert das auch mit dem Zoom-Webclient?
     a: Ja. Loqui hört den Systemton des Macs, egal ob Zoom als App oder im Browser läuft.
 related:

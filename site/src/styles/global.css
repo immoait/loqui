@@ -189,12 +189,9 @@
   .stat:nth-child(3) b { background-image: linear-gradient(90deg, var(--rose), var(--apricot)); }
   .stat p { margin-top: 12px; color: var(--ink-2); font-size: 17px; }
 
-  /* Offen */
+  /* Hintergrund und Datenschutz */
   .open { padding-block: clamp(80px, 10vw, 140px); background: var(--bg-2); text-align: center; }
   .open .wrap { display: grid; gap: 22px; justify-items: center; }
-  .consent { display: inline-flex; align-items: center; gap: 12px; padding: 12px 20px 12px 14px; border-radius: 999px; background: #fff; box-shadow: 0 10px 30px rgba(29,29,31,0.06); font-size: 16px; font-weight: 500; margin-top: 10px; white-space: nowrap; }
-  .toggle { width: 44px; height: 26px; border-radius: 999px; background: linear-gradient(90deg, var(--teal), var(--sky)); position: relative; flex: none; }
-  .toggle::after { content: ""; position: absolute; right: 3px; top: 3px; width: 20px; height: 20px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
   .facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; width: min(100%, 860px); margin-top: 28px; }
   @media (max-width: 760px) { .facts { grid-template-columns: 1fr; } }
   .facts div { display: grid; gap: 6px; padding: 22px; border-radius: 22px; background: #fff; text-align: left; }
