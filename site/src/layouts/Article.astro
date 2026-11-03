@@ -2,8 +2,11 @@
 // Vorlage für alle Inhaltsseiten: Breadcrumbs, Überschrift, „Kurz gesagt“-Karte (GEO),
 // Text, FAQ, verwandte Seiten und Abschluss. Erzeugt Article-, Breadcrumb- und FAQ-Schema.
 import Base from './Base.astro';
-import product from '../data/product.json';
+import { productFor } from '../lib/product';
 import { getEntry } from 'astro:content';
+import { entryPath, homePath, at, type Lang, type Alternates, type Section } from '../i18n';
+import { locales } from '../i18n/sections.mjs';
+import { ui } from '../i18n/ui';
 
 interface Props {
   data: {
@@ -17,32 +20,36 @@ interface Props {
     faq: { q: string; a: string }[];
     related: string[];
   };
+  lang: Lang;
+  alternates: Alternates;
   hub: { href: string; label: string };
   path: string;
   type?: 'Article' | 'DefinedTerm';
   headline?: string;
 }
-const { data, hub, path, type = 'Article', headline } = Astro.props;
+const { data, lang, alternates, hub, path, type = 'Article', headline } = Astro.props;
+const product = productFor(lang);
+const L = ui[lang].article;
 const url = `${product.url}${path}`;
 const updated = data.updated.toISOString().slice(0, 10);
 const published = (data.published ?? data.updated).toISOString().slice(0, 10);
-const updatedText = data.updated.toLocaleDateString('de-DE', { day: 'numeric', month: 'long', year: 'numeric' });
+const updatedText = data.updated.toLocaleDateString(locales[lang], { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
+const home = homePath(lang);
 
-const hubs: Record<string, string> = { vergleich: '/vergleich', einwaende: '/einwaende', ratgeber: '/ratgeber', glossar: '/glossar', integrationen: '' };
+// Verwandte Seiten in derselben Sprache: „glossar/redeanteil“ → content/glossar/<lang>/redeanteil.md
 const related = (
   await Promise.all(
     data.related.map(async (ref) => {
-      const [collection, id] = ref.split('/');
-      const entry = await getEntry(collection as any, id);
+      const [collection, slug] = ref.split('/') as [Section, string];
+      const entry = await getEntry(collection as any, `${lang}/${slug}`);
       if (!entry || (import.meta.env.PROD && entry.data.draft)) return null;
-      const base = hubs[collection] ?? '';
-      return { href: `${base}/${id}`, title: entry.data.title, description: entry.data.description };
+      return { href: entryPath(collection, lang, slug), title: entry.data.title, description: entry.data.description };
     }),
   )
 ).filter(Boolean) as { href: string; title: string; description: string }[];
 
 const crumbs = [
-  { name: 'Loqui', item: `${product.url}/` },
+  { name: 'Loqui', item: home === '/' ? `${product.url}/` : `${product.url}${home}` },
   ...(hub.href ? [{ name: hub.label, item: `${product.url}${hub.href}` }] : []),
   { name: data.title, item: url },
 ];
@@ -53,16 +60,17 @@ const schema: object[] = [
     itemListElement: crumbs.map((c, i) => ({ '@type': 'ListItem', position: i + 1, name: c.name, item: c.item })),
   },
   type === 'DefinedTerm'
-    ? { '@type': 'DefinedTerm', name: headline ?? data.title, description: data.kurz, url, inDefinedTermSet: `${product.url}/glossar` }
+    ? { '@type': 'DefinedTerm', name: headline ?? data.title, description: data.kurz, url, inLanguage: lang, inDefinedTermSet: { '@type': 'DefinedTermSet', name: hub.label, url: `${product.url}${hub.href}` } }
     : {
         '@type': 'Article',
         headline: data.title,
         description: data.description,
         url,
+        mainEntityOfPage: url,
         datePublished: published,
         dateModified: updated,
-        inLanguage: 'de',
-        author: { '@type': 'Organization', name: product.author, url: `${product.url}/` },
+        inLanguage: lang,
+        author: { '@type': 'Organization', name: product.author, url: `${product.url}${home}` },
         publisher: { '@id': `${product.url}/#org` },
         image: `${product.url}/og.png`,
       },
@@ -70,23 +78,26 @@ const schema: object[] = [
 if (data.faq.length) {
   schema.push({
     '@type': 'FAQPage',
+    inLanguage: lang,
     mainEntity: data.faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
   });
 }
 ---
-<Base title={`${data.seoTitle ?? data.title} – Loqui`} description={data.description} path={path} schema={schema} noindex={data.draft} ogType="article" modified={updated}>
+<Base title={`${data.seoTitle ?? data.title} – Loqui`} description={data.description} path={path} lang={lang} alternates={alternates} schema={schema} noindex={data.draft} ogType="article" modified={updated}>
   <main class="page">
     <div class="wrap">
-      <ol class="crumbs" aria-label="Brotkrumen">
-        <li><a href="/">Loqui</a></li>
+      <ol class="crumbs" aria-label={ui[lang].crumbs}>
+        <li><a href={home}>Loqui</a></li>
         {hub.href && <li><a href={hub.href}>{hub.label}</a></li>}
         <li aria-current="page">{data.title}</li>
       </ol>
       <h1>{data.title}</h1>
       <p class="lede">{data.description}</p>
-      <p class="meta">Zuletzt geprüft am <time datetime={updated}>{updatedText}</time> · {product.author}</p>
+      <p class="meta">{lang === 'en'
+        ? <>{L.checked} <time datetime={updated}>{updatedText}</time>, by {product.author}</>
+        : <>{L.checked} <time datetime={updated}>{updatedText}</time> von der {product.author}</>}</p>
 
-      <div class="kurz"><b>Kurz gesagt</b><p>{data.kurz}</p></div>
+      <div class="kurz"><b>{L.kurz}</b><p>{data.kurz}</p></div>
 
       <slot name="top" />
 
@@ -94,7 +105,7 @@ if (data.faq.length) {
 
       {data.faq.length > 0 && (
         <section class="faq">
-          <h2>Fragen.</h2>
+          <h2>{L.faq}</h2>
           <div class="list">
             {data.faq.map((f) => <details><summary>{f.q}</summary><p>{f.a}</p></details>)}
           </div>
@@ -103,15 +114,15 @@ if (data.faq.length) {
 
       {related.length > 0 && (
         <section class="related">
-          <h2>Passend dazu</h2>
+          <h2>{L.related}</h2>
           <ul>{related.map((r) => <li><a href={r.href}><b>{r.title}</b><span>{r.description}</span></a></li>)}</ul>
         </section>
       )}
 
       <section class="cta-band">
-        <h2>Die richtige Antwort, live im Gespräch.</h2>
+        <h2>{L.ctaTitle}</h2>
         <p>{product.oneLiner}</p>
-        <a class="btn" href="/download?los">Kostenlos für Mac laden</a>
+        <a class="btn" href={at(lang, '/download?los')}>{L.cta}</a>
       </section>
     </div>
   </main>

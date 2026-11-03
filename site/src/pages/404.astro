@@ -1,12 +1,21 @@
 ---
+// Eine 404-Seite für beide Sprachen (Vercel liefert sie für jede unbekannte Adresse aus).
 import Base from '../layouts/Base.astro';
+import { ui } from '../i18n/ui';
+const de = ui.de.notFound;
+const en = ui.en.notFound;
 ---
-<Base title="Seite nicht gefunden – Loqui" description="Diese Seite gibt es nicht. Hier geht es zurück zur Startseite von Loqui." path="/404" noindex>
+<Base title={`${de.title} – Loqui`} description={de.description} path="/404" noindex>
   <main class="page">
     <div class="wrap">
-      <h1>Diese Seite gibt es nicht.</h1>
-      <p class="lede">Vielleicht hat sich die Adresse geändert. Auf der Startseite findest du alles über Loqui.</p>
-      <p style="margin-top:32px"><a class="btn" href="/">Zur Startseite</a></p>
+      <h1>{de.h1}</h1>
+      <p class="lede">{de.lede}</p>
+      <p style="margin-top:32px"><a class="btn" href="/">{de.back}</a></p>
+      <div lang="en" style="margin-top:64px">
+        <h2>{en.h1}</h2>
+        <p class="lede">{en.lede}</p>
+        <p style="margin-top:24px"><a class="btn light" href="/en">{en.back}</a></p>
+      </div>
     </div>
   </main>
 </Base>

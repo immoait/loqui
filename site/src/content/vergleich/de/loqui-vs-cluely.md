@@ -3,7 +3,7 @@ title: Loqui vs. Cluely
 seoTitle: "Loqui vs. Cluely: Unterschiede, Preise, Datenschutz"
 description: "Loqui und Cluely im Vergleich: Beide helfen live im Videocall. Loqui antwortet aus deinen Unterlagen und coacht dich, Cluely nutzt allgemeines KI-Wissen."
 kurz: Cluely und Loqui zeigen während eines Videocalls KI-Vorschläge an. Cluely antwortet mit allgemeinem KI-Wissen und kostet bis zu 149,99 US-Dollar im Monat. Loqui antwortet aus deiner eigenen Wissensbasis mit Quelle, zeigt deinen Redeanteil live, gibt Feedback nach jedem Gespräch und kostet in der Pro-Version 19 Euro im Monat.
-updated: 2026-11-02
+updated: 2026-11-03
 competitor: Cluely
 rows:
   - label: Hilfe während des Gesprächs
@@ -23,7 +23,7 @@ rows:
     other: Nein
   - label: Plattform
     loqui: Mac
-    other: Mac, iPhone
+    other: Mac, Windows, iPhone
   - label: Preis
     loqui: 0 € oder 19 € im Monat
     other: 0 $, 19,99 $ oder 149,99 $ im Monat
@@ -31,7 +31,7 @@ faq:
   - q: Ist Loqui eine Cluely-Alternative?
     a: "Ja. Loqui hilft wie Cluely live im Gespräch, antwortet aber aus deinen eigenen Unterlagen und zeigt dir zusätzlich, wie du besser wirst: Redeanteil live und Feedback nach jedem Gespräch."
   - q: Sieht mein Gegenüber die Vorschläge?
-    a: Bei beiden nicht. Beide laufen als eigenes Fenster und treten dem Meeting nicht bei. Cluely bietet den Schutz bei Bildschirmfreigaben ausdrücklich im Tarif „Pro + Undetectability“ für 149,99 US-Dollar im Monat an.
+    a: Loqui erscheint nicht in deiner Bildschirmfreigabe. Cluely nennt den vollständigen Schutz bei Bildschirmfreigaben auf seiner Preisseite als Teil des Tarifs „Pro + Undetectability“ für 149,99 US-Dollar im Monat. Keines der beiden Tools tritt dem Meeting als Bot bei.
   - q: Was ist günstiger?
     a: Beide haben einen kostenlosen Einstieg. Die bezahlten Stufen liegen bei 19 Euro (Loqui Pro) und 19,99 bis 149,99 US-Dollar (Cluely) im Monat.
 related:
@@ -54,7 +54,7 @@ Dazu kommt das Coaching. Loqui zeigt dir live deinen Redeanteil und weist dich a
 
 ## Wann Cluely die bessere Wahl ist
 
-- Du willst die App auch auf dem iPhone nutzen.
+- Du brauchst die App auch unter Windows oder auf dem iPhone, nicht nur auf dem Mac.
 - Du brauchst vor allem allgemeines Fachwissen im Gespräch, zum Beispiel technische Erklärungen, und weniger Antworten aus eigenen Unterlagen.
 - Du brauchst Unterstützung in vielen Sprachen. Cluely nennt mehr als zwölf.
 
@@ -64,4 +64,4 @@ Dazu kommt das Coaching. Loqui zeigt dir live deinen Redeanteil und weist dich a
 - Du willst dein Gesprächsverhalten verbessern: Redeanteil, Monologe, fehlende Fragen.
 - Du willst Antworten mit Quelle, damit du keine falschen Preise oder Zusagen nennst.
 
-Die Angaben zu Cluely stammen von cluely.com (Startseite und Preisseite), Stand 2. November 2026.
+Die Angaben zu Cluely stammen von cluely.com (Start-, Preis- und Downloadseite), Stand 3. November 2026.

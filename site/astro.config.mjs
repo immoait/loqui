@@ -1,15 +1,20 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import indexNow from './integrations/indexnow.mjs';
-import { readFileSync, readdirSync } from 'node:fs';
+import { readFileSync, readdirSync, existsSync } from 'node:fs';
+import { sections, langs, entryPath } from './src/i18n/sections.mjs';
 
 // Letzte Änderung je Inhaltsseite aus dem Feld `updated`, damit die Sitemap ein echtes lastmod trägt.
+// Inhalte liegen unter src/content/<bereich>/<sprache>/<slug>.md.
 const lastmod = {};
-const bases = { vergleich: '/vergleich/', einwaende: '/einwaende/', ratgeber: '/ratgeber/', glossar: '/glossar/', integrationen: '/' };
-for (const [dir, base] of Object.entries(bases)) {
-  for (const file of readdirSync(new URL(`./src/content/${dir}`, import.meta.url))) {
-    const updated = readFileSync(new URL(`./src/content/${dir}/${file}`, import.meta.url), 'utf8').match(/^updated:\s*(\S+)/m)?.[1];
-    if (updated) lastmod[`https://useloqui.de${base}${file.replace(/\.md$/, '')}`] = new Date(updated).toISOString();
+for (const dir of Object.keys(sections)) {
+  for (const lang of langs) {
+    const folder = new URL(`./src/content/${dir}/${lang}/`, import.meta.url);
+    if (!existsSync(folder)) continue;
+    for (const file of readdirSync(folder)) {
+      const updated = readFileSync(new URL(file, folder), 'utf8').match(/^updated:\s*(\S+)/m)?.[1];
+      if (updated) lastmod[`https://useloqui.de${entryPath(dir, lang, file.replace(/\.md$/, ''))}`] = new Date(updated).toISOString();
+    }
   }
 }
 const product = JSON.parse(readFileSync(new URL('./src/data/product.json', import.meta.url), 'utf8'));

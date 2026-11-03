@@ -1,22 +1,28 @@
 ---
-// Übersichtsseite eines Bereichs, z. B. /vergleich. Listet alle Seiten mit Beschreibung.
+// Übersichtsseite eines Bereichs, z. B. /vergleich oder /en/compare. Listet alle Seiten mit Beschreibung.
 import Base from './Base.astro';
-import product from '../data/product.json';
+import product from '../lib/product';
+import { homePath, type Lang, type Alternates } from '../i18n';
+import { ui } from '../i18n/ui';
 
 interface Props {
+  lang: Lang;
+  alternates: Alternates;
   title: string;
   seoTitle: string;
   lede: string;
   description: string;
+  intro: string;
   path: string;
   items: { href: string; title: string; description: string }[];
 }
-const { title, seoTitle, lede, description, path, items } = Astro.props;
+const { lang, alternates, title, seoTitle, lede, description, intro, path, items } = Astro.props;
+const home = homePath(lang);
 const schema = [
   {
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Loqui', item: `${product.url}/` },
+      { '@type': 'ListItem', position: 1, name: 'Loqui', item: home === '/' ? `${product.url}/` : `${product.url}${home}` },
       { '@type': 'ListItem', position: 2, name: title, item: `${product.url}${path}` },
     ],
   },
@@ -24,17 +30,18 @@ const schema = [
     '@type': 'CollectionPage',
     name: title,
     url: `${product.url}${path}`,
+    inLanguage: lang,
     hasPart: items.map((i) => ({ '@type': 'WebPage', name: i.title, url: `${product.url}${i.href}` })),
   },
 ];
 ---
-<Base title={`${seoTitle} – Loqui`} description={description} path={path} schema={schema}>
+<Base title={`${seoTitle} – Loqui`} description={description} path={path} lang={lang} alternates={alternates} schema={schema}>
   <main class="page">
     <div class="wrap">
-      <ol class="crumbs" aria-label="Brotkrumen"><li><a href="/">Loqui</a></li><li aria-current="page">{title}</li></ol>
+      <ol class="crumbs" aria-label={ui[lang].crumbs}><li><a href={home}>Loqui</a></li><li aria-current="page">{title}</li></ol>
       <h1>{title}</h1>
       <p class="lede">{lede}</p>
-      <div class="prose hub-intro"><slot /></div>
+      <div class="prose hub-intro" set:html={intro} />
       <ul class="hub-list">
         {items.map((i) => <li><a href={i.href}><b>{i.title}</b><span>{i.description}</span></a></li>)}
       </ul>

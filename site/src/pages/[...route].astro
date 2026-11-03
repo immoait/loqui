@@ -1,0 +1,78 @@
+---
+// Alle Übersichts- und Inhaltsseiten in beiden Sprachen aus einer Route:
+// /vergleich, /vergleich/<slug>, /zoom, /en/compare, /en/compare/<slug>, /en/zoom …
+import Article from '../layouts/Article.astro';
+import Hub from '../layouts/Hub.astro';
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import { isLive } from '../lib/live';
+import { langs, splitId, entryPath, hubPath, alternatesFor, type Lang, type Section } from '../i18n';
+import { hubs, ui } from '../i18n/ui';
+
+type HubKey = Exclude<Section, 'integrationen'>;
+export async function getStaticPaths() {
+  const paths = [];
+  // Liegt hier drin, weil Astro getStaticPaths ohne den restlichen Frontmatter-Code ausführt.
+  const all_ = ['vergleich', 'einwaende', 'ratgeber', 'glossar', 'integrationen'] as Section[];
+  for (const collection of all_) {
+    const all = await getCollection(collection, isLive);
+    for (const entry of all) {
+      const { lang, slug } = splitId(entry.id);
+      // Englische Seite älter als die deutsche? Dann hinkt die Übersetzung hinterher.
+      const source = (entry.data as { source?: string }).source;
+      if (lang !== 'de' && source) {
+        const de = all.find((e) => e.id === `de/${source}`);
+        if (de && de.data.updated > entry.data.updated) console.warn(`[i18n] ${entry.id} ist älter als de/${source}. Übersetzung prüfen.`);
+      }
+      paths.push({
+        params: { route: entryPath(collection, lang, slug).slice(1) },
+        props: { kind: 'entry' as const, collection, lang, entry, alternates: await alternatesFor(collection, entry) },
+      });
+    }
+    if (collection === 'integrationen') continue;
+    for (const lang of langs as Lang[]) {
+      const items = all
+        .filter((e) => splitId(e.id).lang === lang)
+        .sort((a, b) => a.data.title.localeCompare(b.data.title, lang))
+        .map((e) => ({ href: entryPath(collection, lang, splitId(e.id).slug), title: e.data.title, description: e.data.description }));
+      if (!items.length) continue;
+      const alternates = Object.fromEntries(
+        (langs as Lang[]).filter((l) => all.some((e) => splitId(e.id).lang === l)).map((l) => [l, hubPath(collection, l)]),
+      );
+      paths.push({
+        params: { route: hubPath(collection, lang).slice(1) },
+        props: { kind: 'hub' as const, collection, lang, items, alternates },
+      });
+    }
+  }
+  return paths;
+}
+
+const props = Astro.props as any;
+const lang: Lang = props.lang;
+const collection: Section = props.collection;
+const hubCopy = collection !== 'integrationen' ? hubs[collection as HubKey][lang] : null;
+const hub = hubCopy ? { href: hubPath(collection, lang), label: hubCopy.title } : { href: '', label: '' };
+const entry = props.kind === 'entry' ? (props.entry as CollectionEntry<Section>) : null;
+const Content = entry ? (await render(entry)).Content : null;
+const data = entry?.data as any;
+const customerSays = ui[lang].article.customerSays;
+const q = lang === 'en' ? ['“', '”'] : ['„', '“'];
+---
+{props.kind === 'hub' && hubCopy && (
+  <Hub lang={lang} alternates={props.alternates} title={hubCopy.title} seoTitle={hubCopy.seoTitle} lede={hubCopy.lede} description={hubCopy.description} intro={hubCopy.intro} path={hub.href} items={props.items} />
+)}
+{entry && Content && (
+  <Article data={data} lang={lang} alternates={props.alternates} hub={hub} path={entryPath(collection, lang, splitId(entry.id).slug)}
+    type={collection === 'glossar' ? 'DefinedTerm' : 'Article'} headline={data.term}>
+    {collection === 'einwaende' && <p slot="top" class="quote-card"><small>{customerSays}</small>{q[0]}{data.quote}{q[1]}</p>}
+    {collection === 'vergleich' && (
+      <div slot="top" class="table-wrap">
+        <table>
+          <thead><tr><td></td><th scope="col" class="you">Loqui</th><th scope="col">{data.competitor}</th></tr></thead>
+          <tbody>{data.rows.map((r: any) => <tr><th scope="row">{r.label}</th><td data-label="Loqui">{r.loqui}</td><td data-label={data.competitor}>{r.other}</td></tr>)}</tbody>
+        </table>
+      </div>
+    )}
+    <Content />
+  </Article>
+)}
