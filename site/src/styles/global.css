@@ -141,7 +141,7 @@
   /* Aussage */
   .statement { padding-block: clamp(96px, 14vw, 180px); text-align: center; }
   .statement p { font-size: clamp(1.9rem, 4.6vw, 3.4rem); font-weight: 600; letter-spacing: -0.04em; line-height: 1.12; max-width: 16em; margin: 0 auto; text-wrap: balance; color: var(--ink-3); }
-  .statement p span { color: var(--ink); }
+  .statement p span:not(.w) { color: var(--ink); }
 
   /* Bento */
   .bento { display: grid; grid-template-columns: repeat(6, 1fr); gap: 20px; }
@@ -158,10 +158,12 @@
   .say-card .kind { font-size: 12px; font-weight: 600; color: var(--teal-ink); }
   .say-card .say { font: 500 clamp(17px, 2vw, 21px)/1.35 var(--font-round); hyphens: manual; }
   .say-card .src { font-size: 12px; color: var(--ink-2); }
+  .t-question { grid-template-rows: auto 1fr; }
+  .typing { display: none; }
   .bubble { align-self: end; justify-self: start; border-radius: 22px 22px 22px 6px; padding: 16px 18px; background: #fff; box-shadow: 0 12px 30px rgba(255,122,168,0.18); font: 500 18px/1.35 var(--font-round); max-width: 18em; }
   .bubble small { display: block; font: 600 12px var(--font); color: #a8560c; margin-bottom: 6px; }
 
-  .ring { width: 170px; height: 170px; border-radius: 50%; justify-self: center; display: grid; place-items: center; background: conic-gradient(var(--violet) 0 58%, rgba(155,107,255,0.14) 58% 100%); position: relative; }
+  .ring { width: 170px; height: 170px; border-radius: 50%; justify-self: center; display: grid; place-items: center; background: conic-gradient(var(--violet) 0 var(--p, 58%), rgba(155,107,255,0.14) var(--p, 58%) 100%); position: relative; }
   .ring::before { content: ""; position: absolute; inset: 14px; border-radius: 50%; background: #f3efff; }
   .ring b { position: relative; font: 600 40px/1 var(--font-round); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
   .ring small { position: relative; display: block; text-align: center; font-size: 13px; color: var(--ink-2); margin-top: 4px; }
@@ -364,3 +366,62 @@
   .lang-hint a { color: #fff; font-weight: 600; white-space: nowrap; }
   .lang-hint button { width: 28px; height: 28px; border-radius: 50%; border: 0; background: rgba(255,255,255,0.14); color: #fff; font-size: 16px; line-height: 1; cursor: pointer; flex: none; }
   @media (max-width: 560px) { .lang-hint { border-radius: 18px; flex-wrap: wrap; } }
+
+  /* ---------- Bewegung auf der Startseite ----------
+     Jede Bewegung zeigt, was Loqui tut. Nur transform, opacity und Farbe; bei „Bewegung reduzieren“ nichts. */
+  @media (prefers-reduced-motion: no-preference) {
+    /* Hero: Pegel im Pill bewegt sich, solange „Hört zu“ steht */
+    .pill .meter i { animation: level .26s ease-in-out .5s 10 alternate; transform-origin: left; }
+    @keyframes level { from { transform: scaleX(.35); } to { transform: scaleX(1.6); } }
+
+    /* Antwort: Wort für Wort, danach die Quelle */
+    .anim .t-answer .say .w { display: inline-block; opacity: 0; transform: translateY(4px); filter: blur(3px); }
+    .anim .t-answer .src { opacity: 0; }
+    .anim .t-answer.in .say .w { animation: word .4s cubic-bezier(.2,.7,.2,1) both; animation-delay: calc(.25s + var(--i) * 70ms); }
+    .anim .t-answer.in .src { animation: fade .5s ease-out 1.6s both; }
+    @keyframes word { to { opacity: 1; transform: none; filter: none; } }
+    @keyframes fade { to { opacity: 1; } }
+
+    /* Nächste Frage: erst tippen, dann die Nachricht */
+    .anim .t-question .typing { display: inline-flex; grid-area: 2 / 1; align-self: end; justify-self: start; gap: 5px; padding: 16px 18px; border-radius: 22px 22px 22px 6px; background: #fff; box-shadow: 0 12px 30px rgba(255,122,168,0.18); opacity: 0; }
+    .anim .t-question .typing i { width: 7px; height: 7px; border-radius: 50%; background: var(--apricot); }
+    .anim .t-question .bubble { grid-area: 2 / 1; opacity: 0; transform: scale(.92); transform-origin: 0 100%; }
+    .anim .t-question.in .typing { animation: typing-box 1.3s ease both .2s; }
+    .anim .t-question.in .typing i { animation: dot .9s ease-in-out infinite; }
+    .anim .t-question.in .typing i:nth-child(2) { animation-delay: .15s; }
+    .anim .t-question.in .typing i:nth-child(3) { animation-delay: .3s; }
+    .anim .t-question.in .bubble { animation: pop .45s cubic-bezier(.2,1.3,.4,1) 1.45s both; }
+    @keyframes typing-box { 0% { opacity: 0; transform: scale(.9); } 15%, 85% { opacity: 1; transform: none; } 100% { opacity: 0; } }
+    @keyframes dot { 0%, 100% { transform: translateY(0); opacity: .45; } 50% { transform: translateY(-3px); opacity: 1; } }
+    @keyframes pop { to { opacity: 1; transform: none; } }
+
+    /* Feedback: Zeilen erscheinen nacheinander, wie ein Bericht, der entsteht */
+    .anim .t-report .report > * { opacity: 0; transform: translateY(6px); }
+    .anim .t-report.in .report > * { animation: line .5s cubic-bezier(.2,.7,.2,1) both; }
+    .anim .t-report.in .report > :nth-child(1), .anim .t-report.in .report > :nth-child(2) { animation-delay: .3s; }
+    .anim .t-report.in .report > :nth-child(3), .anim .t-report.in .report > :nth-child(4) { animation-delay: .75s; }
+    .anim .t-report.in .report > :nth-child(5), .anim .t-report.in .report > :nth-child(6) { animation-delay: 1.2s; }
+    @keyframes line { to { opacity: 1; transform: none; } }
+
+    /* Aussage: der zweite Satz färbt sich beim Scrollen Wort für Wort.
+       Timeline über --tl, damit der Minifier sie nicht ungültig in die animation-Kurzschreibweise zieht. */
+    @supports (animation-timeline: view()) {
+      .statement .w { --tl: view(); animation: ink linear both; animation-timeline: var(--tl); animation-range: cover calc(28% + var(--i) * 2.2%) cover calc(34% + var(--i) * 2.2%); }
+    }
+    @supports not (animation-timeline: view()) {
+      .anim .statement .w { transition: color .5s ease; transition-delay: calc(var(--i) * 90ms); }
+      .anim .statement.in .w { color: var(--ink); }
+    }
+    @keyframes ink { to { color: var(--ink); } }
+
+    /* Leiste: feiner Schatten, sobald gescrollt wird */
+    @supports (animation-timeline: scroll()) {
+      .topbar { --tl: scroll(); animation: lift linear both; animation-timeline: var(--tl); animation-range: 0 80px; }
+      @keyframes lift { to { box-shadow: 0 6px 24px rgba(29,29,31,0.06); } }
+    }
+
+    /* Fragen: weich auf- und zuklappen (wo der Browser es kann) */
+    :root { interpolate-size: allow-keywords; }
+    details::details-content { height: 0; overflow: clip; transition: height .3s ease, content-visibility .3s allow-discrete; }
+    details[open]::details-content { height: auto; }
+  }

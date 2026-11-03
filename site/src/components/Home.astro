@@ -93,7 +93,7 @@ const schema = [
 
 <section class="statement">
   <div class="wrap">
-    <p><span>{c.statement[0]}</span>{c.statement[1]}</p>
+    <p><span>{c.statement[0]}</span>{c.statement[1].split(/(\s+)/).map((w, i) => (w.trim() ? <span class="w" style={`--i:${i / 2}`}>{w}</span> : w))}</p>
   </div>
 </section>
 
@@ -101,33 +101,34 @@ const schema = [
   <div class="wrap">
     <h2 id="features-title" class="sr-only">{c.featuresTitle}</h2>
     <div class="bento">
-      <article class="tile t-answer">
+      <article class="tile t-answer" data-play>
         <div class="copy">
           <h3>{c.tiles.answer.h}</h3>
           <p>{c.tiles.answer.p}</p>
         </div>
         <div class="say-card light-glass">
           <span class="kind">{c.tiles.answer.kind}</span>
-          <p class="say">{c.tiles.answer.say}</p>
+          <p class="say">{c.tiles.answer.say.split(/(\s+)/).map((w, i) => (w.trim() ? <span class="w" style={`--i:${i / 2}`}>{w}</span> : w))}</p>
           <p class="src">{c.tiles.answer.src}</p>
         </div>
       </article>
 
-      <article class="tile t-question">
+      <article class="tile t-question" data-play>
         <div class="copy">
           <h3>{c.tiles.question.h}</h3>
         </div>
+        <span class="typing" aria-hidden="true"><i></i><i></i><i></i></span>
         <p class="bubble"><small>{c.tiles.question.kind}</small>{c.tiles.question.say}</p>
       </article>
 
-      <article class="tile t-talk">
+      <article class="tile t-talk" data-play>
         <div class="copy">
           <h3>{c.tiles.talk.h}</h3>
         </div>
-        <div class="ring"><div><b>{lang === "en" ? "58%" : "58 %"}</b><small>{c.tiles.talk.you}</small></div></div>
+        <div class="ring" data-ratio="58" data-unit={lang === "en" ? "%" : " %"}><div><b>{lang === "en" ? "58%" : "58 %"}</b><small>{c.tiles.talk.you}</small></div></div>
       </article>
 
-      <article class="tile t-report">
+      <article class="tile t-report" data-play>
         <div class="copy">
           <h3>{c.tiles.report.h}</h3>
           <p>{c.tiles.report.p}</p>
@@ -201,4 +202,52 @@ const schema = [
     </div>
   </div>
 </section>
+<script>
+  // Funktions-Kacheln spielen ihren Inhalt einmal ab, sobald sie sichtbar werden.
+  // Ohne JavaScript oder bei „Bewegung reduzieren“ steht sofort das Endbild.
+  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!still && 'IntersectionObserver' in window) {
+    document.documentElement.classList.add('anim');
+    const ring = document.querySelector<HTMLElement>('.ring[data-ratio]');
+    const label = ring?.querySelector('b');
+    const target = Number(ring?.dataset.ratio ?? 58);
+    const unit = ring?.dataset.unit ?? '%';
+    const show = (v: number) => { ring!.style.setProperty('--p', `${v}%`); label!.textContent = `${Math.round(v)}${unit}`; };
+    let live: number | undefined;
+
+    // Redeanteil: von 0 hochzählen, danach leicht schwanken, solange die Kachel sichtbar ist.
+    const countUp = () => {
+      const start = performance.now();
+      const step = (t: number) => {
+        const k = Math.min(1, (t - start) / 1400);
+        show(target * (1 - Math.pow(1 - k, 3)));
+        if (k < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    };
+    const wobble = (on: boolean) => {
+      clearInterval(live);
+      if (on) live = window.setInterval(() => show(target + Math.round(Math.random() * 2 - 1)), 2200);
+    };
+
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        const tile = e.target as HTMLElement;
+        if (e.isIntersecting && !tile.classList.contains('in')) {
+          tile.classList.add('in');
+          if (tile.classList.contains('t-talk') && ring) { show(0); countUp(); setTimeout(() => wobble(true), 1600); }
+        } else if (tile.classList.contains('t-talk') && tile.classList.contains('in')) {
+          wobble(e.isIntersecting);
+        }
+      }
+    }, { threshold: 0.35 });
+    document.querySelectorAll('[data-play]').forEach((t) => io.observe(t));
+
+    // Aussage: färbt sich beim Scrollen Wort für Wort. Mit CSS-Scroll-Timeline, sonst einmalig beim Erscheinen.
+    if (!CSS.supports('animation-timeline: view()')) {
+      const st = document.querySelector('.statement');
+      if (st) new IntersectionObserver(([e], o) => { if (e.isIntersecting) { st.classList.add('in'); o.disconnect(); } }, { threshold: 0.6 }).observe(st);
+    }
+  }
+</script>
 </Base>
