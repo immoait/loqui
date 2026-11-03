@@ -1,6 +1,7 @@
 ---
 title: Redeanteil im Verkaufsgespräch senken
-description: Fünf Techniken, mit denen du in der Bedarfsanalyse weniger redest und mehr erfährst. Mit Sätzen zum Mitnehmen.
+seoTitle: "Redeanteil senken: 5 Techniken für Verkäufer"
+description: Fünf Techniken, mit denen du in der Bedarfsanalyse weniger redest und mehr über den Kunden erfährst. Mit Beispielsätzen, die du direkt nutzen kannst.
 kurz: Wer in der Bedarfsanalyse weniger redet, erfährt mehr über das Problem des Kunden. Die wirksamsten Hebel sind offene Fragen, bewusste Pausen nach einer Antwort, Zusammenfassen statt Erklären und das Verschieben der Produktvorstellung auf später.
 updated: 2026-11-02
 draft: false

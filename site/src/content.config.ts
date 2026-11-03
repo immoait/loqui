@@ -6,8 +6,12 @@ import { z } from 'astro/zod';
 // `faq` erzeugt sichtbare Fragen und FAQPage-Schema, `draft` hält Seiten aus der Produktion.
 const base = z.object({
   title: z.string(),
-  description: z.string().max(170),
+  // Titel für Suchergebnisse (<title>), falls er vom sichtbaren h1 abweichen soll. Ohne „– Loqui“.
+  seoTitle: z.string().max(52).optional(),
+  // 120–160 Zeichen: so lang zeigt Google sie meist vollständig.
+  description: z.string().min(120).max(160),
   kurz: z.string(),
+  published: z.coerce.date().optional(),
   updated: z.coerce.date(),
   draft: z.boolean().default(false),
   faq: z.array(z.object({ q: z.string(), a: z.string() })).default([]),

@@ -5,12 +5,13 @@ import product from '../data/product.json';
 
 interface Props {
   title: string;
+  seoTitle: string;
   lede: string;
   description: string;
   path: string;
   items: { href: string; title: string; description: string }[];
 }
-const { title, lede, description, path, items } = Astro.props;
+const { title, seoTitle, lede, description, path, items } = Astro.props;
 const schema = [
   {
     '@type': 'BreadcrumbList',
@@ -27,12 +28,13 @@ const schema = [
   },
 ];
 ---
-<Base title={`${title} – Loqui`} description={description} path={path} schema={schema}>
+<Base title={`${seoTitle} – Loqui`} description={description} path={path} schema={schema}>
   <main class="page">
     <div class="wrap">
       <ol class="crumbs" aria-label="Brotkrumen"><li><a href="/">Loqui</a></li><li aria-current="page">{title}</li></ol>
       <h1>{title}</h1>
       <p class="lede">{lede}</p>
+      <div class="prose hub-intro"><slot /></div>
       <ul class="hub-list">
         {items.map((i) => <li><a href={i.href}><b>{i.title}</b><span>{i.description}</span></a></li>)}
       </ul>

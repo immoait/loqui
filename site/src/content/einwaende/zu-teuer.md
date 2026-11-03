@@ -1,6 +1,7 @@
 ---
 title: Einwand „Das ist zu teuer“
-description: Was hinter „zu teuer“ meistens steckt, drei Antworten, die du direkt sagen kannst, und der Fehler, den fast alle machen.
+seoTitle: "Einwand „zu teuer“: 3 Antworten im Preisgespräch"
+description: Was hinter dem Einwand „zu teuer“ meistens steckt, drei Antworten, die du im Verkaufsgespräch direkt sagen kannst, und der Fehler, den fast alle machen.
 kurz: „Das ist zu teuer“ heißt selten, dass kein Geld da ist. Meistens fehlt der Bezug zwischen Preis und Nutzen. Die beste Reaktion ist kein Rabatt, sondern eine Rückfrage, die den Vergleichsmaßstab klärt, gefolgt von einer Rechnung mit den Zahlen des Kunden.
 updated: 2026-11-02
 quote: Das ist uns ehrlich gesagt zu teuer.

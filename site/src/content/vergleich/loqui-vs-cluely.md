@@ -1,6 +1,7 @@
 ---
 title: Loqui vs. Cluely
-description: Beide helfen live im Gespräch. Cluely setzt auf Unsichtbarkeit, Loqui auf Offenheit und Antworten aus deiner eigenen Wissensbasis.
+seoTitle: "Loqui vs. Cluely: Unterschiede, Preise, Datenschutz"
+description: "Loqui und Cluely im Vergleich: Beide helfen live im Videocall. Cluely setzt auf Unsichtbarkeit, Loqui auf Offenheit und Antworten aus deiner Wissensbasis."
 kurz: Cluely und Loqui zeigen während eines Videocalls KI-Vorschläge an. Cluely wirbt damit, für andere Teilnehmende unsichtbar zu sein, und verlangt für die volle Tarnung 149,99 US-Dollar im Monat. Loqui arbeitet offen, zieht Antworten mit Quelle aus deiner Wissensbasis und kostet in der Pro-Version 19 Euro im Monat.
 updated: 2026-11-02
 competitor: Cluely
