@@ -103,11 +103,17 @@
   .pill time { font: 600 12px var(--font-round); font-variant-numeric: tabular-nums; }
   .pill .meter { width: 34px; height: 4px; border-radius: 4px; background: rgba(255,255,255,0.18); flex: none; overflow: hidden; }
   .pill .meter i { display: block; width: 46%; height: 100%; background: #5ad8e6; }
-  .pill .prev { flex: 1; min-width: 0; font-weight: 600; color: #5ad8e6; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .pill .prev { flex: 1; min-width: 0; font-weight: 600; color: #5ad8e6; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: grid; }
+  .pill .prev > span { grid-area: 1 / 1; }
+  .pill .listen { color: rgba(245,245,247,0.6); font-weight: 500; opacity: 0; }
   .pill .stop { width: 22px; height: 22px; border-radius: 50%; background: rgba(255,255,255,0.14); display: grid; place-items: center; flex: none; }
   .pill .stop::after { content: ""; width: 7px; height: 7px; border-radius: 1.5px; background: #fff; }
   .sheet { position: absolute; z-index: 3; top: calc(7% + 50px); left: 50%; transform: translateX(-50%); width: min(470px, 86%); border-radius: 20px; padding: 16px 18px; display: grid; gap: 9px; box-shadow: 0 24px 60px rgba(0,0,0,0.35), 0 0 50px rgba(90,216,230,0.25), inset 0 1px 0 rgba(255,255,255,0.18); }
   .sheet .kind { font-size: 11px; font-weight: 600; color: #5ad8e6; }
+  .sheet .lat { font-weight: 500; color: rgba(245,245,247,0.5); margin-left: 6px; font-variant-numeric: tabular-nums; }
+  /* Live-Transkript: was das Gegenüber gerade gesagt hat */
+  .caption { position: absolute; z-index: 2; left: 10%; bottom: 11%; max-width: min(360px, 46%); margin: 0; padding: 10px 14px; border-radius: 14px; font: 500 clamp(12px, 1.4vw, 14px)/1.35 var(--font); }
+  .caption b { display: block; font-size: 11px; font-weight: 600; color: rgba(245,245,247,0.6); margin-bottom: 2px; }
   .sheet .say { font: 500 clamp(14px, 1.9vw, 18px)/1.35 var(--font-round); letter-spacing: -0.01em; }
   .sheet .src { font-size: 11.5px; color: rgba(245,245,247,0.55); }
   .chips { display: flex; flex-wrap: nowrap; gap: 6px; overflow: hidden; }
@@ -130,6 +136,7 @@
     .sheet { top: auto; bottom: calc(4% + 8px); width: 84%; padding: 14px 16px; gap: 7px; }
     .sheet .say { font-size: 15px; }
     .chip:nth-child(n+2) { display: none; }
+    .caption { left: 9%; right: 9%; bottom: auto; top: calc(12% + 52px); max-width: none; }
   }
 
   /* Aussage */
@@ -178,25 +185,17 @@
   .compare span { color: var(--ink-2); font-size: 16px; }
   .compare .you b { background: var(--spectrum); -webkit-background-clip: text; background-clip: text; color: transparent; }
 
-  /* Zahlen */
-  .numbers { padding-block: clamp(64px, 8vw, 112px); }
-  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; text-align: center; }
-  @media (max-width: 760px) { .stats { grid-template-columns: 1fr; gap: 40px; } }
-  .stat b { display: inline-flex; align-items: baseline; gap: 6px; font: 600 clamp(4rem, 9vw, 6.5rem)/1 var(--font-round); letter-spacing: -0.05em; font-variant-numeric: tabular-nums; -webkit-background-clip: text; background-clip: text; color: transparent; }
-  .stat b small { font-size: 0.32em; letter-spacing: -0.01em; font-weight: 600; }
-  .stat:nth-child(1) b { background-image: linear-gradient(90deg, var(--teal), var(--sky)); }
-  .stat:nth-child(2) b { background-image: linear-gradient(90deg, var(--sky), var(--violet)); }
-  .stat:nth-child(3) b { background-image: linear-gradient(90deg, var(--rose), var(--apricot)); }
-  .stat p { margin-top: 12px; color: var(--ink-2); font-size: 17px; }
-
   /* Hintergrund und Datenschutz */
-  .open { padding-block: clamp(80px, 10vw, 140px); background: var(--bg-2); text-align: center; }
-  .open .wrap { display: grid; gap: 22px; justify-items: center; }
-  .facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; width: min(100%, 860px); margin-top: 28px; }
-  @media (max-width: 760px) { .facts { grid-template-columns: 1fr; } }
-  .facts div { display: grid; gap: 6px; padding: 22px; border-radius: 22px; background: #fff; text-align: left; }
-  .facts b { font-size: 17px; font-weight: 600; letter-spacing: -0.02em; }
-  .facts span { font-size: 15px; color: var(--ink-2); }
+  .open { padding-block: clamp(80px, 10vw, 140px); background: var(--bg-2); }
+  .open .wrap { display: grid; grid-template-columns: 1fr 1.25fr; gap: clamp(32px, 6vw, 96px); align-items: start; }
+  @media (max-width: 860px) { .open .wrap { grid-template-columns: 1fr; } }
+  .open h2 { font-size: clamp(1.8rem, 3.6vw, 2.6rem); }
+  .open .lede { margin-top: 12px; font-size: clamp(1.1rem, 1.8vw, 1.3rem); }
+  .facts { margin: 0; border-top: 1px solid var(--line); }
+  .facts > div { display: grid; grid-template-columns: minmax(0, 13em) 1fr; gap: 6px 24px; padding: 18px 0; border-bottom: 1px solid var(--line); }
+  @media (max-width: 560px) { .facts > div { grid-template-columns: 1fr; } }
+  .facts dt { font-size: 17px; font-weight: 600; letter-spacing: -0.02em; }
+  .facts dd { margin: 0; font-size: 16px; color: var(--ink-2); }
 
   /* Preise */
   .pricing { padding-block: clamp(96px, 12vw, 160px); }
@@ -244,9 +243,19 @@
   footer a:hover { color: var(--ink); }
 
   @property --a { syntax: "<angle>"; initial-value: 0deg; inherits: false; }
+  /* Ein Moment beim Laden: Gegenüber spricht, Loqui erkennt den Einwand, nach 2,5 s kommt die Antwort.
+     Ohne Bewegung (prefers-reduced-motion) steht sofort das Endbild. */
   @media (prefers-reduced-motion: no-preference) {
-    .glow { animation: spin 9s linear infinite; }
-    @keyframes spin { to { --a: 360deg; } }
+    .glow { animation: spin 3.6s cubic-bezier(.2,.7,.2,1) .4s both; }
+    @keyframes spin { from { --a: 0deg; } to { --a: 360deg; } }
+    .caption { animation: rise .5s ease-out .5s both; }
+    .pill .listen { animation: show-then-hide 2.5s linear .5s both; }
+    .pill .found { animation: fade-in .3s ease-out 3s both; }
+    .sheet { animation: sheet-in .6s cubic-bezier(.2,.8,.2,1) 3s both; }
+    @keyframes rise { from { opacity: 0; transform: translateY(8px); } }
+    @keyframes fade-in { from { opacity: 0; } }
+    @keyframes show-then-hide { 0%, 96% { opacity: 1; } 100% { opacity: 0; } }
+    @keyframes sheet-in { from { opacity: 0; transform: translate(-50%, 14px) scale(.98); } }
   }
 
   /* ---------- Unterseiten: gleicher Look, ruhige Lesespalte ---------- */
@@ -288,6 +297,17 @@
   .table-wrap thead th.you { color: var(--ink); font-weight: 600; }
   .table-wrap tbody th { color: var(--ink-2); font-weight: 400; width: 34%; }
   .table-wrap tr:last-child th { border-bottom: 0; }
+  /* Handy: jede Zeile als Block – Merkmal oben, beide Antworten nebeneinander */
+  @media (max-width: 640px) {
+    .table-wrap table { min-width: 0; font-size: 15px; }
+    .table-wrap thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+    .table-wrap tr { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 16px; padding: 16px 18px; border-bottom: 1px solid var(--line); }
+    .table-wrap tr:last-child { border-bottom: 0; }
+    .table-wrap th, .table-wrap td { padding: 0; border: 0; }
+    .table-wrap tbody th { grid-column: 1 / -1; width: auto; font-size: 14px; margin-bottom: 4px; }
+    .table-wrap td::before { content: attr(data-label); display: block; font-size: 12px; font-weight: 600; color: var(--ink-2); margin-bottom: 2px; }
+    .table-wrap td:nth-of-type(1)::before { color: var(--ink); }
+  }
 
   .page .faq { padding: 0; margin-top: 64px; }
   .page .faq h2 { font-size: clamp(1.6rem, 3.4vw, 2.2rem); margin-bottom: 8px; }
@@ -318,8 +338,3 @@
   .legal-doc mark { background: #fff4d6; color: var(--ink); padding: 0 4px; border-radius: 4px; }
   .todo { margin-top: 28px; padding: 14px 18px; border-radius: 14px; background: #fff4d6; color: #7a5200; font-size: 15px; }
   footer .wrap { align-items: center; }
-  @media (max-width: 640px) {
-    .table-wrap table { min-width: 0; font-size: 14px; }
-    .table-wrap th, .table-wrap td { padding: 12px 10px; }
-    .table-wrap td:first-child { width: 32%; font-size: 13px; }
-  }

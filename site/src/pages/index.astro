@@ -54,7 +54,7 @@ const schema = [
     <div class="device">
       <div class="glow soft" aria-hidden="true"></div>
       <div class="glow" aria-hidden="true"></div>
-      <div class="screen" role="img" aria-label="Loqui über einem laufenden Videocall: Der Kunde nennt den Preis zu hoch, Loqui schlägt eine Antwort vor.">
+      <div class="screen" role="img" aria-label="Loqui über einem laufenden Videocall: Der Kunde sagt, es sei zu teuer. Zweieinhalb Sekunden später schlägt Loqui eine Antwort vor.">
         <div class="menubar"><b>Zoom</b><span>Mo 14:32</span></div>
         <div class="callwin">
           <div class="bar"><i></i><i></i><i></i></div>
@@ -69,11 +69,12 @@ const schema = [
         <div class="pill dark-glass">
           <span class="rec"></span><time>12:41</time>
           <span class="meter"><i></i></span>
-          <span class="prev">Preis-Einwand</span>
+          <span class="prev"><span class="listen">Hört zu</span><span class="found">Preis-Einwand</span></span>
           <span class="stop"></span>
         </div>
+        <p class="caption dark-glass"><b>Thomas Meyer</b>„Ehrlich gesagt ist uns das zu teuer.“</p>
         <div class="sheet dark-glass">
-          <span class="kind">Antwort</span>
+          <span class="kind">Antwort <span class="lat">nach {product.stats.suggestionSeconds} Sek.</span></span>
           <p class="say">„49 € pro Nutzer, und die doppelte Pflege in Excel fällt weg. Wie viele Stunden sind das bei Ihnen pro Woche?“</p>
           <p class="src">Aus: Preise, Case Meyer GmbH</p>
           <div class="chips">
@@ -142,8 +143,7 @@ const schema = [
   <div class="wrap">
     <div>
       <h2>Was Loqui ist.</h2>
-      <p>Loqui ist ein Gesprächscoach für den Mac. Die App hört deine Videocalls in Zoom, Google Meet, Teams und Slack live mit und zeigt dir während des Gesprächs kurze Vorschläge: die passende Antwort auf einen Einwand, die nächste gute Frage oder einen Hinweis, wenn du zu lange redest.</p>
-      <p>Die Antworten kommen aus deiner eigenen Wissensbasis, mit Quelle. Nach dem Gespräch bekommst du ehrliches Feedback mit Zeitmarken. Gebaut für Menschen im Vertrieb, für Gründer und Führungskräfte, deren Gespräche über Abschlüsse entscheiden.</p>
+      <p>Ein Gesprächscoach für den Mac. Er hört deine Videocalls in Zoom, Google&nbsp;Meet, Teams und Slack mit und zeigt dir die passende Antwort aus deinen Unterlagen, die nächste gute Frage oder einen Hinweis, wenn du zu lange redest. Danach bekommst du Feedback mit Zeitmarken.</p>
     </div>
     <div class="compare" aria-label="Loqui im Vergleich">
       <div><b>Granola</b><span>Schreibt mit und fasst danach zusammen.</span></div>
@@ -154,25 +154,18 @@ const schema = [
   </div>
 </section>
 
-<section class="numbers">
-  <div class="wrap">
-    <div class="stats">
-      <div class="stat"><b>{product.stats.transcriptSeconds}<small>Sek.</small></b><p>vom Satzende zum Transkript</p></div>
-      <div class="stat"><b>{product.stats.suggestionSeconds}<small>Sek.</small></b><p>bis zum Vorschlag</p></div>
-      <div class="stat"><b>0</b><p>Bots im Meeting</p></div>
-    </div>
-  </div>
-</section>
-
 <section class="open" id="datenschutz">
   <div class="wrap">
-    <h2>Läuft still im Hintergrund.</h2>
-    <p class="lede">Kein Bot im Meeting, keine Aufnahme. Die Vorschläge siehst nur du.</p>
-    <div class="facts">
-      <div><b>Kein Bot im Meeting</b><span>Loqui läuft als Fenster auf deinem Mac.</span></div>
-      <div><b>Kein Audio gespeichert</b><span>Loqui speichert keine Aufnahmen.</span></div>
-      <div><b>Berichte bleiben bei dir</b><span>Feedback und Verlauf liegen lokal auf deinem Mac.</span></div>
+    <div>
+      <h2>Läuft still im Hintergrund.</h2>
+      <p class="lede">Du merkst Loqui nur, wenn es dir hilft.</p>
     </div>
+    <dl class="facts">
+      <div><dt>Kein Bot im Meeting</dt><dd>Loqui läuft als Fenster auf deinem Mac und tritt keinem Call bei.</dd></div>
+      <div><dt>Nur du siehst die Vorschläge</dt><dd>Auch nicht, wenn du deinen Bildschirm teilst.</dd></div>
+      <div><dt>Keine Aufnahmen</dt><dd>Der Ton geht verschlüsselt zur Transkription an OpenAI. Loqui speichert ihn nicht.</dd></div>
+      <div><dt>Berichte bleiben bei dir</dt><dd>Feedback und Verlauf liegen lokal auf deinem Mac.</dd></div>
+    </dl>
   </div>
 </section>
 

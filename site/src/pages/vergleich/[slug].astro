@@ -14,7 +14,7 @@ const { Content } = await render(entry);
   <div slot="top" class="table-wrap">
     <table>
       <thead><tr><td></td><th scope="col" class="you">Loqui</th><th scope="col">{entry.data.competitor}</th></tr></thead>
-      <tbody>{entry.data.rows.map((r) => <tr><th scope="row">{r.label}</th><td>{r.loqui}</td><td>{r.other}</td></tr>)}</tbody>
+      <tbody>{entry.data.rows.map((r) => <tr><th scope="row">{r.label}</th><td data-label="Loqui">{r.loqui}</td><td data-label={entry.data.competitor}>{r.other}</td></tr>)}</tbody>
     </table>
   </div>
   <Content />
