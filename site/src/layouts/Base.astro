@@ -1,22 +1,34 @@
 ---
 import '../styles/global.css';
-import product from '../data/product.json';
-import { getCollection } from 'astro:content';
-import { isLive } from '../lib/live';
+import product from '../lib/product';
+import { entriesIn, hubPath, homePath, at, otherLang, type Lang, type Alternates } from '../i18n';
+import { ogLocales } from '../i18n/sections.mjs';
+import { ui, hubs as hubCopy } from '../i18n/ui';
 
 interface Props {
   title: string;
   description: string;
   path: string;
+  lang?: Lang;
+  /** Pfade derselben Seite in den Sprachen, für hreflang und den Sprachschalter. */
+  alternates?: Alternates;
   schema?: object[];
   noindex?: boolean;
   ogImage?: string;
   ogType?: 'website' | 'article';
   modified?: string;
 }
-const { title, description, path, schema = [], noindex = false, ogImage = '/og.png', ogType = 'website', modified } = Astro.props;
-const url = new URL(path, product.url).href.replace(/\/$/, path === '/' ? '/' : '');
+const { title, description, path, lang = 'de', alternates = {}, schema = [], noindex = false, ogImage = '/og.png', ogType = 'website', modified } = Astro.props;
+const abs = (p: string) => (p === '/' ? `${product.url}/` : `${product.url}${p}`);
+const url = abs(path);
 const og = new URL(ogImage, product.url).href;
+const L = ui[lang];
+const other = otherLang(lang);
+const alt = { ...alternates, [lang]: path };
+const switchTo = alt[other] ?? homePath(other);
+// x-default: Englisch für alle anderen Sprachen, sofern vorhanden.
+const xDefault = alt.en ?? alt.de;
+const home = homePath(lang);
 
 const org = {
   '@type': 'Organization',
@@ -29,23 +41,27 @@ const org = {
 };
 const graph = { '@context': 'https://schema.org', '@graph': [org, ...schema] };
 
-// Footer verlinkt nur Bereiche, die schon Inhalte haben.
-const live = isLive;
-const hubs = [
-  { href: '/vergleich', label: 'Vergleiche', n: (await getCollection('vergleich', live)).length },
-  { href: '/einwaende', label: 'Einwände', n: (await getCollection('einwaende', live)).length },
-  { href: '/ratgeber', label: 'Ratgeber', n: (await getCollection('ratgeber', live)).length },
-  { href: '/glossar', label: 'Glossar', n: (await getCollection('glossar', live)).length },
-].filter((h) => h.n > 0);
+// Footer verlinkt nur Bereiche, die in dieser Sprache schon Inhalte haben.
+const hubs = (
+  await Promise.all(
+    (['vergleich', 'einwaende', 'ratgeber', 'glossar'] as const).map(async (c) => ({
+      href: hubPath(c, lang),
+      label: hubCopy[c][lang].title,
+      n: (await entriesIn(c, lang)).length,
+    })),
+  )
+).filter((h) => h.n > 0);
 ---
 <!doctype html>
-<html lang="de">
+<html lang={lang}>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>{title}</title>
 <meta name="description" content={description}>
 {!noindex && <link rel="canonical" href={url}>}
+{!noindex && Object.entries(alt).map(([l, p]) => <link rel="alternate" hreflang={l} href={abs(p as string)}>)}
+{!noindex && xDefault && Object.keys(alt).length > 1 && <link rel="alternate" hreflang="x-default" href={abs(xDefault)}>}
 {noindex && <meta name="robots" content="noindex">}
 <meta property="og:type" content={ogType}>
 <meta property="og:site_name" content={product.name}>
@@ -55,7 +71,8 @@ const hubs = [
 <meta property="og:image" content={og}>
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:locale" content="de_DE">
+<meta property="og:locale" content={ogLocales[lang]}>
+{alt[other] && <meta property="og:locale:alternate" content={ogLocales[other]}>}
 {modified && <meta property="article:modified_time" content={modified}>}
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -65,16 +82,19 @@ const hubs = [
 <script type="application/ld+json" set:html={JSON.stringify(graph)} />
 </head>
 <body>
-<nav class="topbar" aria-label="Hauptnavigation">
+<nav class="topbar" aria-label={L.nav.label}>
   <div class="wrap">
-    <a class="logo" href="/"><span class="mark" aria-hidden="true"></span>Loqui</a>
+    <a class="logo" href={home}><span class="mark" aria-hidden="true"></span>Loqui</a>
     <ul>
-      <li><a href="/#funktionen">Funktionen</a></li>
-      <li><a href="/#datenschutz">Datenschutz</a></li>
-      <li><a href="/#preise">Preise</a></li>
-      <li><a href="/#fragen">Fragen</a></li>
+      <li><a href={`${home}#${L.anchors.features}`}>{L.nav.features}</a></li>
+      <li><a href={`${home}#${L.anchors.privacy}`}>{L.nav.privacy}</a></li>
+      <li><a href={`${home}#${L.anchors.pricing}`}>{L.nav.pricing}</a></li>
+      <li><a href={`${home}#${L.anchors.faq}`}>{L.nav.faq}</a></li>
     </ul>
-    <a class="btn" href="/download?los">Laden</a>
+    <div class="top-actions">
+      <a class="lang-switch" href={switchTo} hreflang={other}><span lang={other}>{L.switcher.label}</span></a>
+      <a class="btn" href={at(lang, '/download?los')}>{L.nav.cta}</a>
+    </div>
   </div>
 </nav>
 
@@ -84,12 +104,35 @@ const hubs = [
   <div class="wrap">
     <span>© 2026 Loqui</span>
     {hubs.length > 0 && (
-      <nav class="legal" aria-label="Inhalte">
+      <nav class="legal" aria-label={L.footer.content}>
         {hubs.map((h) => <a href={h.href}>{h.label}</a>)}
       </nav>
     )}
-    <nav class="legal" aria-label="Rechtliches"><a href="/impressum">Impressum</a><a href="/datenschutz">Datenschutz</a></nav>
+    <nav class="legal" aria-label={L.footer.legal}><a href="/impressum" hreflang="de">{L.footer.imprint}</a><a href="/datenschutz" hreflang="de">{L.footer.privacy}</a></nav>
   </div>
 </footer>
+
+{alt[other] && (
+  <aside class="lang-hint" id="lang-hint" lang={other} data-lang={other} hidden>
+    <span>{ui[other].hint.text}</span>
+    <a href={alt[other]} hreflang={other}>{ui[other].hint.action}</a>
+    <button type="button" aria-label={ui[other].hint.close}>×</button>
+  </aside>
+)}
+<script>
+  // Einmaliger Hinweis, wenn die Browsersprache zur anderen Sprachversion passt. Keine automatische Weiterleitung.
+  const hint = document.getElementById('lang-hint');
+  if (hint) {
+    const target = hint.dataset.lang!;
+    let dismissed = false;
+    try { dismissed = localStorage.getItem('loqui-lang-hint') === '1'; } catch {}
+    const prefers = (navigator.languages || [navigator.language]).map((l) => l.slice(0, 2).toLowerCase());
+    const current = document.documentElement.lang;
+    if (!dismissed && prefers[0] === target && !prefers.includes(current)) hint.hidden = false;
+    const remember = () => { try { localStorage.setItem('loqui-lang-hint', '1'); } catch {} };
+    hint.querySelector('button')!.addEventListener('click', () => { hint.hidden = true; remember(); });
+    hint.querySelector('a')!.addEventListener('click', remember);
+  }
+</script>
 </body>
 </html>

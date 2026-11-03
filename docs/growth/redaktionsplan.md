@@ -37,3 +37,5 @@ Reihenfolge = Priorität. Neue Themen unten anhängen, nicht umsortieren ohne Gr
 - Keine erfundenen Zahlen, Studien oder Kundenstimmen.
 - Mindestens zwei `related`-Verweise auf bestehende Seiten.
 - Autor ist immer „Loqui Redaktion“. Kein Personenname.
+- **Jede Seite in beiden Sprachen.** Deutsch unter `site/src/content/<bereich>/de/`, Englisch (US) unter `.../en/` mit `source: <deutscher-slug>` und englischem Slug. Englisch nach `docs/i18n/en-styleguide.md` neu schreiben, Suchbegriff nach `docs/i18n/en-keywords.md`. Details: `docs/i18n/README.md`.
+- Wird eine deutsche Seite geändert, auch die englische nachziehen und `updated` in beiden setzen. Sonst warnt der Build.

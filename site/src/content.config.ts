@@ -11,6 +11,8 @@ const base = z.object({
   // 120–160 Zeichen: so lang zeigt Google sie meist vollständig.
   description: z.string().min(120).max(160),
   kurz: z.string(),
+  // Nur in Übersetzungen: Slug der deutschen Originalseite, verknüpft beide Sprachen (hreflang).
+  source: z.string().optional(),
   published: z.coerce.date().optional(),
   updated: z.coerce.date(),
   draft: z.boolean().default(false),

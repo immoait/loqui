@@ -1,0 +1,102 @@
+---
+// Download-Seite in beiden Sprachen. Alle Buttons der Website führen hierher (/download?los, /en/download?los).
+// Auf dem Mac startet der Download mit ?los automatisch, auf anderen Geräten
+// wird der Button zu „Link an mich schicken“. Datei-Adresse steht in product.json.
+import Base from '../layouts/Base.astro';
+import product from '../lib/product';
+import { at, type Lang } from '../i18n';
+import { download } from '../i18n/download';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const c = download[lang];
+const dl = product.download;
+const ready = Boolean(dl.url);
+const meta = c.meta(dl.minMacOS, dl.version, dl.size);
+const path = at(lang, '/download');
+const faq = c.faq;
+
+
+const schema = [
+  {
+    '@type': 'SoftwareApplication',
+    '@id': lang === 'de' ? `${product.url}/#app` : `${product.url}/en#app`,
+    name: product.name,
+    operatingSystem: `macOS ${dl.minMacOS}`,
+    ...(dl.url && { downloadUrl: dl.url }),
+  },
+  {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Loqui', item: lang === 'de' ? `${product.url}/` : `${product.url}/en` },
+      { '@type': 'ListItem', position: 2, name: c.h1.replace(/\.$/, ''), item: `${product.url}${path}` },
+    ],
+  },
+  {
+    '@type': 'FAQPage',
+    inLanguage: lang,
+    mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+  },
+];
+---
+<Base title={c.title} description={c.description(dl.minMacOS)} path={path} lang={lang} alternates={{ de: '/download', en: '/en/download' }} schema={schema}>
+  <main class="page download">
+    <div class="wrap">
+      <h1>{c.h1}</h1>
+      <p class="lede">{c.lede}</p>
+
+      <div class="dl-action" data-url={dl.url} data-path={path} data-copied={c.copied} data-share-title={c.shareTitle} data-share-text={c.shareText}>
+        <p class="note" id="not-mac" hidden>{c.notMac}</p>
+        {ready ? (
+          <a class="btn big" id="dl-button" href={dl.url} download>{c.button}</a>
+        ) : (
+          <p class="dl-soon">{c.soon}</p>
+        )}
+        <button class="btn big" id="share-button" type="button" hidden>{c.share}</button>
+        <p class="note" id="dl-note">{meta}</p>
+        <p class="note" id="dl-started" hidden aria-live="polite">{c.started} <a href={dl.url} download>{c.again}</a>.</p>
+      </div>
+
+      <section class="steps" aria-labelledby="steps-title">
+        <h2 id="steps-title">{c.stepsTitle}</h2>
+        <ol>
+          {c.steps.map((st) => <li><b>{st.t}</b><span>{st.d}</span></li>)}
+        </ol>
+      </section>
+
+      <section class="faq">
+        <h2>{c.faqTitle}</h2>
+        <div class="list">
+          {faq.map((f) => <details><summary>{f.q}</summary><p>{f.a}</p></details>)}
+        </div>
+      </section>
+    </div>
+  </main>
+</Base>
+
+<script>
+  const box = document.querySelector('.dl-action') as HTMLElement;
+  const url = box.dataset.url;
+  const ua = navigator.userAgent;
+  // iPads melden sich als Mac, haben aber Touch.
+  const isMac = /Macintosh|Mac OS X/.test(ua) && navigator.maxTouchPoints < 2;
+  const show = (id: string, on: boolean) => { const el = document.getElementById(id); if (el) el.hidden = !on; };
+
+  if (!isMac) {
+    show('dl-button', false);
+    show('share-button', true);
+    show('not-mac', true);
+    const share = document.getElementById('share-button') as HTMLButtonElement;
+    share.addEventListener('click', async () => {
+      const link = `${location.origin}${box.dataset.path}`;
+      try {
+        if (navigator.share) await navigator.share({ title: box.dataset.shareTitle, text: box.dataset.shareText, url: link });
+        else { await navigator.clipboard.writeText(link); share.textContent = box.dataset.copied!; }
+      } catch { /* Teilen abgebrochen */ }
+    });
+  } else if (url && new URLSearchParams(location.search).has('los')) {
+    // Download direkt starten, wenn jemand über einen Button kam.
+    history.replaceState(null, '', box.dataset.path);
+    setTimeout(() => { location.href = url; show('dl-started', true); }, 400);
+  }
+</script>

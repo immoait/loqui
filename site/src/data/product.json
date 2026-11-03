@@ -12,7 +12,7 @@
     "country": "DE"
   },
   "author": "Loqui Redaktion",
-  "status": "Early Access",
+  "status": "Beta",
   "platforms": [
     "macOS"
   ],
@@ -56,5 +56,38 @@
     "version": "",
     "size": "",
     "minMacOS": "14.4"
+  },
+  "currency": "EUR",
+  "en": {
+    "tagline": "Always know what to say.",
+    "oneLiner": "The call coach that listens in and shows you the answer from your own docs, right when you need it.",
+    "entity": "Loqui is a real-time AI sales coach for Mac. It listens to your video calls and shows live answers from your own documents, the next question to ask, and your talk ratio. No bot joins the call.",
+    "description": "Loqui is a real-time AI sales coach for Mac. It listens to video calls in Zoom, Google Meet, Teams, and Slack and shows short suggestions while you talk: the right answer from your own docs, the next question to ask, or a nudge about your talk ratio. After the call, Loqui gives you honest feedback with timestamps.",
+    "author": "Loqui Editorial",
+    "status": "Beta",
+    "currency": "USD",
+    "plans": [
+      {
+        "name": "Starter",
+        "price": 0,
+        "period": null,
+        "features": [
+          "5 calls a month",
+          "Answers, questions, and nudges",
+          "Feedback after every call"
+        ]
+      },
+      {
+        "name": "Pro",
+        "price": 19,
+        "period": "month",
+        "features": [
+          "Unlimited calls",
+          "Your own knowledge base",
+          "History across all calls"
+        ]
+      }
+    ],
+    "privacy": "Loqui sends audio to OpenAI, encrypted, for transcription and suggestions. Loqui doesn’t store recordings. Reports stay on your Mac."
   }
 }

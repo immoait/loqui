@@ -1,0 +1,204 @@
+---
+// Startseite in beiden Sprachen. Texte: src/i18n/home.ts.
+import Base from '../layouts/Base.astro';
+import { productFor } from '../lib/product';
+import { homePath, at, type Lang } from '../i18n';
+import { home } from '../i18n/home';
+import { ui } from '../i18n/ui';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const product = productFor(lang);
+const c = home[lang];
+const A = ui[lang].anchors;
+const v = product.download.minMacOS;
+const dl = at(lang, '/download?los');
+const faq = c.faq(v);
+const price = (n: number) => (lang === 'en' ? `$${n}` : `${n} €`);
+
+const schema = [
+  {
+    '@type': 'SoftwareApplication',
+    '@id': lang === 'de' ? `${product.url}/#app` : `${product.url}/en#app`,
+    name: product.name,
+    url: lang === 'de' ? `${product.url}/` : `${product.url}/en`,
+    image: `${product.url}/og.png`,
+    applicationCategory: 'BusinessApplication',
+    operatingSystem: product.platforms.join(', '),
+    inLanguage: lang,
+    description: product.description,
+    publisher: { '@id': `${product.url}/#org` },
+    offers: product.plans.map((p) => ({
+      '@type': 'Offer', name: p.name, price: String(p.price), priceCurrency: product.currency, description: p.features.join(', '),
+      ...(p.period && { priceSpecification: { '@type': 'UnitPriceSpecification', price: String(p.price), priceCurrency: product.currency, billingDuration: 'P1M' } }),
+    })),
+    softwareRequirements: c.requirements(v),
+    ...(product.download.url && { downloadUrl: product.download.url }),
+    featureList: c.featureList,
+  },
+  {
+    '@type': 'FAQPage',
+    inLanguage: lang,
+    mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+  },
+];
+---
+<Base title={c.title} description={c.description} path={homePath(lang)} lang={lang} alternates={{ de: '/', en: '/en' }} schema={schema}>
+<header class="hero" id="top">
+  <div class="wrap">
+    <h1>{c.h1[0]}<br>{c.h1[1]}</h1>
+    <p class="lede">{c.lede}</p>
+    <div class="actions">
+      <a class="btn big" href={dl}>{c.cta}</a>
+      <a class="link" href={`#${A.features}`}>{c.how}</a>
+    </div>
+    <p class="note" set:html={c.note(v).replace('Zoom', `<a href="${at(lang, '/zoom')}">Zoom</a>`)} />
+
+    <div class="device">
+      <div class="glow soft" aria-hidden="true"></div>
+      <div class="glow" aria-hidden="true"></div>
+      <div class="screen" role="img" aria-label={c.mock.aria}>
+        <div class="menubar"><b>Zoom</b><span>{c.mock.date}</span></div>
+        <div class="callwin">
+          <div class="bar"><i></i><i></i><i></i></div>
+          <div class="grid">
+            <div class="person a"><div class="who"></div><span>{c.mock.buyer}</span></div>
+            <div class="side">
+              <div class="person b"><div class="who"></div><span>{c.mock.you}</span></div>
+              <div class="person c"><div class="who"></div><span>{c.mock.colleague}</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="pill dark-glass">
+          <span class="rec"></span><time>12:41</time>
+          <span class="meter"><i></i></span>
+          <span class="prev"><span class="listen">{c.mock.listening}</span><span class="found">{c.mock.found}</span></span>
+          <span class="stop"></span>
+        </div>
+        <p class="caption dark-glass"><b>{c.mock.buyer}</b>{c.mock.caption}</p>
+        <div class="sheet dark-glass">
+          <span class="kind">{c.mock.kind} <span class="lat">{c.mock.after(product.stats.suggestionSeconds)}</span></span>
+          <p class="say">{c.mock.say}</p>
+          <p class="src">{c.mock.src}</p>
+          <div class="chips">
+            <span class="chip">{c.mock.chips[0]} <kbd>{c.mock.shortcut}</kbd></span>
+            <span class="chip">{c.mock.chips[1]}</span>
+            <span class="chip">{c.mock.chips[2]}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="statement">
+  <div class="wrap">
+    <p><span>{c.statement[0]}</span>{c.statement[1]}</p>
+  </div>
+</section>
+
+<section id={A.features} aria-labelledby="features-title">
+  <div class="wrap">
+    <h2 id="features-title" class="sr-only">{c.featuresTitle}</h2>
+    <div class="bento">
+      <article class="tile t-answer">
+        <div class="copy">
+          <h3>{c.tiles.answer.h}</h3>
+          <p>{c.tiles.answer.p}</p>
+        </div>
+        <div class="say-card light-glass">
+          <span class="kind">{c.tiles.answer.kind}</span>
+          <p class="say">{c.tiles.answer.say}</p>
+          <p class="src">{c.tiles.answer.src}</p>
+        </div>
+      </article>
+
+      <article class="tile t-question">
+        <div class="copy">
+          <h3>{c.tiles.question.h}</h3>
+        </div>
+        <p class="bubble"><small>{c.tiles.question.kind}</small>{c.tiles.question.say}</p>
+      </article>
+
+      <article class="tile t-talk">
+        <div class="copy">
+          <h3>{c.tiles.talk.h}</h3>
+        </div>
+        <div class="ring"><div><b>{lang === "en" ? "58%" : "58 %"}</b><small>{c.tiles.talk.you}</small></div></div>
+      </article>
+
+      <article class="tile t-report">
+        <div class="copy">
+          <h3>{c.tiles.report.h}</h3>
+          <p>{c.tiles.report.p}</p>
+        </div>
+        <div class="report">
+          <time>12:41</time><div class="row"><span class="dot" style="background:var(--teal)"></span>{c.tiles.report.rows[0]}</div>
+          <time>18:05</time><div class="row"><span class="dot" style="background:var(--apricot)"></span>{c.tiles.report.rows[1]}</div>
+          <time>22:00</time><div class="row"><span class="dot" style="background:var(--violet)"></span>{c.tiles.report.rows[2]}</div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="about" id="loqui">
+  <div class="wrap">
+    <div>
+      <h2>{c.about.h}</h2>
+      <p>{c.about.p}</p>
+    </div>
+    <div class="compare" aria-label={c.about.label}>
+      {c.about.rows.map((r) => <div class={r.name === 'Loqui' ? 'you' : undefined}><b>{r.name}</b><span>{r.text}</span></div>)}
+    </div>
+  </div>
+</section>
+
+<section class="open" id={A.privacy}>
+  <div class="wrap">
+    <div>
+      <h2>{c.privacy.h}</h2>
+      <p class="lede">{c.privacy.lede}</p>
+    </div>
+    <dl class="facts">
+      {c.privacy.facts.map((f) => <div><dt>{f.t}</dt><dd>{f.d}</dd></div>)}
+    </dl>
+  </div>
+</section>
+
+<section class="pricing" id={A.pricing}>
+  <div class="wrap">
+    <div class="center">
+      <h2>{c.pricing.h}</h2>
+    </div>
+    <div class="plans">
+      {product.plans.map((p, i) => (
+        <div class={i === 1 ? 'plan pro' : 'plan'}>
+          <span class="name">{p.name}</span>
+          <span class="price">{price(p.price)}{p.period && <small>{lang === 'de' ? ` im ${p.period}` : `/${p.period}`}</small>}</span>
+          <ul>{p.features.map((f) => <li>{f}</li>)}</ul>
+          <a class={i === 1 ? 'btn' : 'btn light'} href={dl}>{i === 1 ? c.pricing.pro : c.pricing.free}</a>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="faq" id={A.faq}>
+  <div class="wrap">
+    <div class="center"><h2>{c.faqTitle}</h2></div>
+    <div class="list">
+      {faq.map((f) => <details><summary>{f.q}</summary><p>{f.a}</p></details>)}
+    </div>
+  </div>
+</section>
+
+<section class="closing">
+  <div class="wrap">
+    <div class="finale">
+      <h2>{c.closing[0]}<br>{c.closing[1]}</h2>
+      <a class="btn" href={dl}>{c.cta}</a>
+    </div>
+  </div>
+</section>
+</Base>
