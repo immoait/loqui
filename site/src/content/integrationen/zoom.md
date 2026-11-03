@@ -1,7 +1,8 @@
 ---
 title: Gesprächscoach für Zoom
+seoTitle: "KI-Gesprächscoach für Zoom-Meetings auf dem Mac"
 app: Zoom
-description: Loqui hilft dir live in Zoom-Meetings auf dem Mac. Ohne Zoom-App, ohne Bot im Meeting, eingerichtet in zwei Minuten.
+description: "Loqui hilft dir live in Zoom-Meetings auf dem Mac: passende Antworten, die nächste Frage, dein Redeanteil. Ohne Zoom-App, ohne Bot im Meeting."
 kurz: Loqui läuft als eigenes Fenster neben Zoom auf dem Mac. Es hört den Ton der Zoom-App und dein Mikrofon getrennt mit und zeigt dir während des Meetings Antworten, Fragen und Hinweise. Es tritt dem Meeting nicht bei und braucht keine Zoom-Erweiterung.
 updated: 2026-11-02
 faq:

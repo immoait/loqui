@@ -8,8 +8,10 @@ import { getEntry } from 'astro:content';
 interface Props {
   data: {
     title: string;
+    seoTitle?: string;
     description: string;
     kurz: string;
+    published?: Date;
     updated: Date;
     draft: boolean;
     faq: { q: string; a: string }[];
@@ -23,6 +25,7 @@ interface Props {
 const { data, hub, path, type = 'Article', headline } = Astro.props;
 const url = `${product.url}${path}`;
 const updated = data.updated.toISOString().slice(0, 10);
+const published = (data.published ?? data.updated).toISOString().slice(0, 10);
 const updatedText = data.updated.toLocaleDateString('de-DE', { day: 'numeric', month: 'long', year: 'numeric' });
 
 const hubs: Record<string, string> = { vergleich: '/vergleich', einwaende: '/einwaende', ratgeber: '/ratgeber', glossar: '/glossar', integrationen: '' };
@@ -56,6 +59,7 @@ const schema: object[] = [
         headline: data.title,
         description: data.description,
         url,
+        datePublished: published,
         dateModified: updated,
         inLanguage: 'de',
         author: { '@type': 'Organization', name: product.author, url: `${product.url}/` },
@@ -70,7 +74,7 @@ if (data.faq.length) {
   });
 }
 ---
-<Base title={`${data.title} – Loqui`} description={data.description} path={path} schema={schema} noindex={data.draft}>
+<Base title={`${data.seoTitle ?? data.title} – Loqui`} description={data.description} path={path} schema={schema} noindex={data.draft} ogType="article" modified={updated}>
   <main class="page">
     <div class="wrap">
       <ol class="crumbs" aria-label="Brotkrumen">

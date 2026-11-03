@@ -6,4 +6,6 @@ import { isLive } from '../../lib/live';
 const entries = (await getCollection('glossar', isLive)).sort((a, b) => a.data.title.localeCompare(b.data.title, 'de'));
 const items = entries.map((e) => ({ href: `/glossar/${e.id}`, title: e.data.title, description: e.data.description }));
 ---
-<Hub title="Glossar" lede="Begriffe aus dem Vertrieb, kurz und klar erklärt." description="Vertriebsbegriffe kurz erklärt: Redeanteil, Discovery Call, BANT, MEDDIC, SPIN und mehr." path="/glossar" items={items} />
+<Hub title="Glossar" seoTitle="Vertriebsglossar: Begriffe aus dem Verkauf erklärt" lede="Begriffe aus dem Vertrieb, kurz und klar erklärt." description="Vertriebsbegriffe kurz und verständlich erklärt: was sie bedeuten, wie man sie im Verkaufsgespräch nutzt und woran du erkennst, ob es gut läuft." path="/glossar" items={items}>
+  <p>Jeder Eintrag beginnt mit einer Definition in zwei, drei Sätzen. Danach folgt, wie du den Begriff im Gespräch anwendest und woran du merkst, ob es funktioniert.</p>
+</Hub>

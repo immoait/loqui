@@ -6,4 +6,6 @@ import { isLive } from '../../lib/live';
 const entries = (await getCollection('vergleich', isLive)).sort((a, b) => a.data.title.localeCompare(b.data.title, 'de'));
 const items = entries.map((e) => ({ href: `/vergleich/${e.id}`, title: e.data.title, description: e.data.description }));
 ---
-<Hub title="Vergleiche" lede="Loqui neben Granola, Cluely, Fireflies und Gong. Ehrlich, mit den Fällen, in denen das andere Tool besser passt." description="Ehrliche Vergleiche: Loqui gegen Granola, Cluely, Fireflies, Gong und Otter. Echtzeit-Hilfe, Datenschutz, Preise und wann welches Tool passt." path="/vergleich" items={items} />
+<Hub title="Vergleiche" seoTitle="KI-Tools für Meetings im Vergleich" lede="Loqui neben anderen KI-Tools für Meetings. Ehrlich, mit den Fällen, in denen das andere Tool besser passt." description="Ehrliche Vergleiche von KI-Tools für Videocalls: Loqui neben anderen Assistenten und Notiz-Apps. Echtzeit-Hilfe, Datenschutz, Preise und wann welches passt." path="/vergleich" items={items}>
+  <p>Manche Tools schreiben mit und fassen danach zusammen. Andere helfen dir, während du sprichst. Jeder Vergleich zeigt beide Seiten in einer Tabelle, nennt die Quelle für jede Angabe über das andere Tool und sagt klar, für wen es die bessere Wahl ist.</p>
+</Hub>

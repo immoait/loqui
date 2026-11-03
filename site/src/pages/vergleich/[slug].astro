@@ -13,8 +13,8 @@ const { Content } = await render(entry);
 <Article data={entry.data} hub={{ href: '/vergleich', label: 'Vergleiche' }} path={`/vergleich/${entry.id}`}>
   <div slot="top" class="table-wrap">
     <table>
-      <thead><tr><th></th><th class="you">Loqui</th><th>{entry.data.competitor}</th></tr></thead>
-      <tbody>{entry.data.rows.map((r) => <tr><td>{r.label}</td><td>{r.loqui}</td><td>{r.other}</td></tr>)}</tbody>
+      <thead><tr><td></td><th scope="col" class="you">Loqui</th><th scope="col">{entry.data.competitor}</th></tr></thead>
+      <tbody>{entry.data.rows.map((r) => <tr><th scope="row">{r.label}</th><td>{r.loqui}</td><td>{r.other}</td></tr>)}</tbody>
     </table>
   </div>
   <Content />

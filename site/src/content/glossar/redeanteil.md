@@ -1,7 +1,8 @@
 ---
 title: Redeanteil
+seoTitle: "Redeanteil im Verkaufsgespräch: Definition"
 term: Redeanteil
-description: Was der Redeanteil im Verkaufsgespräch ist, wie man ihn misst und warum weniger oft mehr verkauft.
+description: Was der Redeanteil im Verkaufsgespräch ist, wie man ihn berechnet, warum er in der Bedarfsanalyse zählt und wie du ihn live im Blick behältst.
 kurz: Der Redeanteil ist der Anteil der Gesprächszeit, in der eine Person spricht. Im Vertrieb meint man meist den Anteil des Verkäufers. Ein niedriger Redeanteil in der Bedarfsanalyse ist ein Zeichen, dass der Kunde mehr über sein Problem erzählt, und das ist die Grundlage für ein passendes Angebot.
 updated: 2026-11-02
 faq:
