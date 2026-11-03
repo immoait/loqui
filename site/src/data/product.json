@@ -13,17 +13,48 @@
   },
   "author": "Loqui Redaktion",
   "status": "Early Access",
-  "platforms": ["macOS"],
-  "meetingApps": ["Zoom", "Google Meet", "Microsoft Teams", "Slack"],
+  "platforms": [
+    "macOS"
+  ],
+  "meetingApps": [
+    "Zoom",
+    "Google Meet",
+    "Microsoft Teams",
+    "Slack"
+  ],
   "stats": {
     "transcriptSeconds": "<1",
     "suggestionSeconds": "2,5",
     "measured": "2026-11-02"
   },
   "plans": [
-    { "name": "Starter", "price": 0, "period": null, "features": ["5 Gespräche im Monat", "Antworten, Fragen, Hinweise", "Feedback nach jedem Gespräch"] },
-    { "name": "Pro", "price": 19, "period": "Monat", "features": ["Unbegrenzte Gespräche", "Eigene Wissensbasis", "Verlauf über alle Gespräche"] }
+    {
+      "name": "Starter",
+      "price": 0,
+      "period": null,
+      "features": [
+        "5 Gespräche im Monat",
+        "Antworten, Fragen, Hinweise",
+        "Feedback nach jedem Gespräch"
+      ]
+    },
+    {
+      "name": "Pro",
+      "price": 19,
+      "period": "Monat",
+      "features": [
+        "Unbegrenzte Gespräche",
+        "Eigene Wissensbasis",
+        "Verlauf über alle Gespräche"
+      ]
+    }
   ],
   "privacy": "Für Transkription und Vorschläge wird der Ton verschlüsselt an OpenAI geschickt. Loqui selbst speichert keine Aufnahmen. Berichte bleiben auf deinem Mac.",
-  "updated": "2026-11-02"
+  "updated": "2026-11-02",
+  "download": {
+    "url": "",
+    "version": "",
+    "size": "",
+    "minMacOS": "14.4"
+  }
 }

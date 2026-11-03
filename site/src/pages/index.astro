@@ -9,6 +9,7 @@ const faq = [
   { q: 'Wohin geht das Gesagte?', a: 'Für Transkription und Vorschläge wird der Ton verschlüsselt an OpenAI geschickt. Loqui selbst speichert keine Aufnahmen. Berichte bleiben auf deinem Mac.' },
   { q: 'Lenkt das nicht ab?', a: 'Loqui zeigt höchstens einen Vorschlag auf einmal. Wie oft, stellst du ein.' },
   { q: 'Woher kennt Loqui unsere Preise?', a: 'Aus deiner Wissensbasis. Was dort nicht steht, erfindet Loqui nicht.' },
+  { q: 'Was brauche ich?', a: `Einen Mac mit macOS ${product.download.minMacOS} oder neuer. Loqui funktioniert mit Zoom, Google Meet, Microsoft Teams und Slack, als App oder im Browser.` },
   { q: 'Gibt es Loqui für Windows?', a: 'Noch nicht. Wir starten mit dem Mac.' },
 ];
 
@@ -27,6 +28,8 @@ const schema = [
     offers: product.plans.map((p) => ({
       '@type': 'Offer', name: p.name, price: String(p.price), priceCurrency: 'EUR', description: p.features.join(', '),
     })),
+    softwareRequirements: `macOS ${product.download.minMacOS} oder neuer`,
+    ...(product.download.url && { downloadUrl: product.download.url }),
     featureList: ['Echtzeit-Transkription', 'Antwortvorschläge aus eigener Wissensbasis', 'Nächste Frage', 'Redeanteil live', 'Feedback nach dem Gespräch'],
   },
   {
@@ -40,16 +43,11 @@ const schema = [
   <div class="wrap">
     <h1>Immer die <br>richtige Antwort.</h1>
     <p class="lede">Der Gesprächscoach, der live mithört und dir im richtigen Moment hilft.</p>
-    <div class="actions" id="zugang">
-      <form id="access-form">
-        <label for="email" hidden>E-Mail</label>
-        <input id="email" type="email" required placeholder="name@firma.de" autocomplete="email">
-        <button class="btn" type="submit">Early Access anfragen</button>
-      </form>
-      <p class="ok" id="access-ok" hidden>Danke. Wir melden uns bei dir.</p>
-      <a class="link" href="#funktionen">So funktioniert Loqui ›</a>
+    <div class="actions">
+      <a class="btn big" href="/download?los">Kostenlos für Mac laden</a>
+      <a class="link" href="#funktionen">So funktioniert Loqui</a>
     </div>
-    <p class="note">Für den Mac. Läuft mit Zoom, Google&nbsp;Meet, Teams und&nbsp;Slack.</p>
+    <p class="note">Ab macOS {product.download.minMacOS}. Läuft mit Zoom, Google&nbsp;Meet, Teams und&nbsp;Slack.</p>
 
     <div class="device">
       <div class="glow soft" aria-hidden="true"></div>
@@ -180,7 +178,7 @@ const schema = [
           <span class="name">{p.name}</span>
           <span class="price">{p.price} €{p.period && <small> im {p.period}</small>}</span>
           <ul>{p.features.map((f) => <li>{f}</li>)}</ul>
-          <a class={i === 1 ? 'btn' : 'btn light'} href="#zugang">Early Access anfragen</a>
+          <a class={i === 1 ? 'btn' : 'btn light'} href="/download?los">{i === 1 ? 'Laden und in der App upgraden' : 'Kostenlos laden'}</a>
         </div>
       ))}
     </div>
@@ -200,17 +198,9 @@ const schema = [
   <div class="wrap">
     <div class="finale">
       <h2>Dein bestes Gespräch<br>kommt noch.</h2>
-      <a class="btn" href="#zugang">Early Access anfragen</a>
+      <a class="btn" href="/download?los">Kostenlos für Mac laden</a>
     </div>
   </div>
 </section>
 
-<script>
-  const form = document.getElementById('access-form') as HTMLFormElement;
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    form.hidden = true;
-    (document.getElementById('access-ok') as HTMLElement).hidden = false;
-  });
-</script>
 </Base>
